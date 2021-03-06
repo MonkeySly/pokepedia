@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 export class SettingsComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
+  nbPkmnByPage = 20;
+
   ngOnInit() {
     console.log('settings page loaded');
   }

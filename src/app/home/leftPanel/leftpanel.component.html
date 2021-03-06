@@ -1,0 +1,43 @@
+<div class="container pt-5">
+    <div>
+        Currently {{pkmnNb}} Pokémons in database across {{pkmnNbGens}} generations
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Favorite</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pkmn of pkmnArray">
+                <td>{{pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1)}}</td>
+                <td><button class="btn btn-outline-warning" >Add to fav</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex flex-row justify-content-center">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="visually-hidden-focusable">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link">{{page}}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="visually-hidden-focusable">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>

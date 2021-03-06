@@ -6,8 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { LeftPanelComponent } from './home/left-panel/leftpanel.component';
-import { RightPanelComponent } from './home/right-panel/rightpanel.component';
+import { LeftPanelComponent } from './home/leftPanel/leftpanel.component';
+import { RightPanelComponent } from './home/rightPanel/rightpanel.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpService } from './home/services/httpService';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,10 @@ import { RightPanelComponent } from './home/right-panel/rightpanel.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [HttpService, SettingsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

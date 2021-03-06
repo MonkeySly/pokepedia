@@ -1,5 +1,7 @@
 #left-panel {
     background-color: grey;
+    overflow-y: scroll;
+    position: fixed;
 }
 
 #right-panel {
