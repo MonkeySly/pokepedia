@@ -1,26 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { HttpService } from '../services/httpService';
+import { PanelService } from '../services/panelService';
 
 @Component({
   selector: 'right-panel-component',
   templateUrl: './rightpanel.component.html',
   styleUrls: ['./rightpanel.component.scss']
 })
-export class RightPanelComponent {
-  constructor(
-    private router: Router,
-    private httpService: HttpService
-    ) {}
+export class RightPanelComponent implements OnInit {
 
     dataReceived: boolean = false;
 
-    pkmnId: number = 1;
+    pkmnName: string = 'haunter';
 
     pkmnData: any;
     abilitiesData: Array<any> = [];
     movesData: Array<any> = [];
 
+    private subscriptionPknmName: Subscription;
+
+  constructor(
+    private router: Router,
+    private httpService: HttpService,
+    private panelService: PanelService,
+    ) {
+
+      this.panelService.$getEventSubject.subscribe(newPkmnName => {
+          this.pkmnName = newPkmnName;
+          this.ngOnInit();
+      });
+
+    }
 
     ngOnInit() {
       console.log("right panel loaded");
@@ -28,7 +40,7 @@ export class RightPanelComponent {
     }
 
     getPkmnData() {
-      this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + this.pkmnId).subscribe(result => {
+      this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + this.pkmnName).subscribe(result => {
         this.pkmnData = this.httpService.requestResultHandler(result);
         console.log(this.pkmnData);
         this.getAbilitiesData()
@@ -41,6 +53,7 @@ export class RightPanelComponent {
     }
 
     getAbilitiesData() {
+      this.abilitiesData = [];
       for (let ability of this.pkmnData.abilities) {
           this.httpService.get('https://pokeapi.co/api/v2/ability/' + ability.ability.name).subscribe(result => {
             let abilityArray = this.httpService.requestResultHandler(result);
@@ -53,6 +66,7 @@ export class RightPanelComponent {
     }
 
     getMovesData() {
+      this.movesData = [];
       for (let move of this.pkmnData.moves) {
         if (move.version_group_details[0].move_learn_method.name != 'machine' && move.version_group_details[0].move_learn_method.name != 'egg') {
             this.httpService.get('https://pokeapi.co/api/v2/move/' + move.move.name).subscribe(result => {
@@ -96,5 +110,4 @@ export class RightPanelComponent {
         return "Error, no height found."
       }
     }
-
 }

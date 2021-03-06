@@ -34,9 +34,10 @@
                 <div class="col fw-bold py-1">{{convertWeight(pkmnData.weight)}}kg</div>
             </div>
             <div class="my-2">
-                <table class="table table-sm table-bordered">
+                <table class="table">
                     <thead>
                         <tr>
+                            <td></td>
                             <td id="hp-title" class="text-center">HP</td>
                             <td id="atk-title" class="text-center">Atk</td>
                             <td id="def-title" class="text-center">Def</td>
@@ -46,6 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <th class="text-center">Base stats</th>
                         <td class="text-center">{{pkmnData.stats[0].base_stat}}</td>
                         <td class="text-center">{{pkmnData.stats[1].base_stat}}</td>
                         <td class="text-center">{{pkmnData.stats[2].base_stat}}</td>

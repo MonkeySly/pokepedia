@@ -1,0 +1,8 @@
+.pkmn-link {
+    color: white;
+    &:hover {
+        color:darkblue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

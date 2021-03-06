@@ -10,6 +10,7 @@ import { LeftPanelComponent } from './home/leftPanel/leftpanel.component';
 import { RightPanelComponent } from './home/rightPanel/rightpanel.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from './home/services/httpService';
+import { PanelService } from './home/services/panelService';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { HttpService } from './home/services/httpService';
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [HttpService, SettingsComponent],
+  providers: [HttpService, PanelService, LeftPanelComponent, RightPanelComponent, SettingsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

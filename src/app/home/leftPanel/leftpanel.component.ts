@@ -4,7 +4,9 @@ import {Router} from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { SettingsComponent } from 'src/app/settings/settings.component';
+import { RightPanelComponent } from '../rightPanel/rightpanel.component';
 import { HttpService } from '../services/httpService';
+import { PanelService } from '../services/panelService';
 
 @Component({
   selector: 'left-panel-component',
@@ -14,29 +16,35 @@ import { HttpService } from '../services/httpService';
 export class LeftPanelComponent {
 
   constructor(
-    private router: Router,
     private httpHandler: HttpService,
-    private settings: SettingsComponent) {}
+    private settings: SettingsComponent,
+    private panelService: PanelService) {}
 
+    // Urls to fetch at poekapi.co
+    urls = {
+      pokemon: 'https://pokeapi.co/api/v2/pokemon',
+      generation: 'https://pokeapi.co/api/v2/generation',
+      arrayPage: 'https://pokeapi.co/api/v2/pokemon?offset=0&count=' + this.settings.nbPkmnByPage,
+      prevArrayPage: null,
+      nextArrayPage: null,
+    }
+
+    // Array of pokémons to show on the left panel
     pkmnArray: Array<any> = [];
-    page: number = 1;
 
-  urls = {
-    pokemon: 'https://pokeapi.co/api/v2/pokemon',
-    generation: 'https://pokeapi.co/api/v2/generation',
-    arrayPage: 'https://pokeapi.co/api/v2/pokemon?offset=0&count=' + this.settings.nbPkmnByPage,
-    prevArrayPage: null,
-    nextArrayPage: null,
-  }
-
-
-    data: JSON;
+    // Data to display at the top of the left panel
     pkmnNb: number;
     pkmnNbGens: number;
 
+    // Pagination data
+    page: number = 1; 
+
+    // Service used to update the right panel when selecting a pokémon on the left panel list
+    sendMessage(pkmnName): void {
+      this.panelService.sendCustomEvent(pkmnName);
+    }
 
     ngOnInit() {
-      console.log("left panel loaded");
       this.getNbPkmn();
       this.getPkmnNbGenerations();
       this.getPkmnArray(this.urls.arrayPage);
