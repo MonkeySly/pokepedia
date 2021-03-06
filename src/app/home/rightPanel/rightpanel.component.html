@@ -11,7 +11,7 @@
         <div class="col-8 d-flex flex-column">
             <!-- Name -->
             <div class="d-flex flex-row mb-1">
-                <p class="fw-bold fs-2">#{{pkmnData.id}} - {{capitalize(pkmnData.name)}}</p>
+                <p class="fw-bold fs-2">#{{pkmnData.id | number:'3.0'}} - {{capitalize(pkmnData.name)}}</p>
             </div>
             <!-- Types -->
             <div class="row mb-1 attribute-block">
@@ -104,7 +104,7 @@
                     <td>{{move.level_learned_at}}</td>
                     <td>{{capitalize(move.name)}}</td>
                     <td>{{move.pp}}</td>
-                    <td>{{move.damage_class.name}}</td>
+                    <td>{{capitalize(move.damage_class.name)}}</td>
                     <td *ngIf="move.power">{{move.power}}</td>
                     <td *ngIf="!move.power">~</td>
                     <td *ngIf="move.accuracy">{{move.accuracy}}</td>
