@@ -1,8 +1,13 @@
 <div id="navbar" class="navbar">
     <div class="container-fluid">
-        <div class="d-flex flex-row">
-            <div class="p-2"><a routerLink="" routerLinkActive="active">Home</a></div>
-            <div class="p-2"><a routerLink="settings" routerLinkActive="active">Settings</a></div>
+        <div class="row align-items-center w-100">
+            <div class="col-2 justify-content-center"><a routerLink="" routerLinkActive="active">Home</a></div>
+            <div class="col-2 h-100"><a routerLink="settings" routerLinkActive="active">Settings</a></div>
+            <div class="col-7 h-100">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                </div>
+            </div>
         </div>
     </div>
 </div>
