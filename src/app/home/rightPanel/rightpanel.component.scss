@@ -1,3 +1,55 @@
 #right-panel {
     background-color: white;
 }
+
+.pkmn-image {
+    width: 200%;
+}
+
+.attribute-block {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.attribute-title {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+#hp-title {
+    background-color: #A0F0A0;
+}
+
+#atk-title {
+    background-color: #F0A0A0;
+}
+
+#def-title {
+    background-color: #F0F0A0;
+}
+
+#atksp-title {
+    background-color: #F8C8A0;
+}
+
+#defsp-title {
+    background-color: #E8C868;
+}
+
+#vit-title {
+    background-color: #A0F0F0;
+}
+
+.hidden-ability {
+    background-color: gray;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+
+.move-table thead tr th {
+    background-color: black;
+    color: white;
+    text-align: center;
+}

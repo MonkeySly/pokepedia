@@ -1,1 +1,115 @@
-<div>Right panel</div>
+<div class="container pt-5" *ngIf="dataReceived">
+    <!-- Basic data -->
+    <div class="row">
+        <!-- Picture -->
+        <div class="col-4">
+            <div>
+                <img class="w-100" [src]="pkmnData.sprites.front_default">
+            </div>
+        </div>
+        <!-- Data -->
+        <div class="col-8 d-flex flex-column">
+            <!-- Name -->
+            <div class="d-flex flex-row mb-1">
+                <p class="fw-bold fs-2">#{{pkmnData.id}} - {{capitalize(pkmnData.name)}}</p>
+            </div>
+            <!-- Types -->
+            <div class="row mb-1 attribute-block">
+                <div class="col-2 attribute-title py-1">Type(s):</div>
+                <div class="col fw-bold py-1">
+                    {{capitalize(pkmnData.types[0].type.name)}}
+                    <span *ngIf="pkmnData.types.length > 1">
+                        &nbsp;- <span class="fw-bold">{{capitalize(pkmnData.types[1].type.name)}}</span>
+                        </span>
+                </div>
+            </div>
+            <!-- Height -->
+            <div class="row mb-2 attribute-block">
+                <div class="col-2 attribute-title py-1">Height:</div>
+                <div class="col fw-bold py-1">{{convertHeight(pkmnData.height)}}m</div>
+            </div>
+            <!-- Weight -->
+            <div class="row mb-2 attribute-block">
+                <div class="col-2 attribute-title py-1">Weight:</div>
+                <div class="col fw-bold py-1">{{convertWeight(pkmnData.weight)}}kg</div>
+            </div>
+            <div class="my-2">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <td id="hp-title" class="text-center">HP</td>
+                            <td id="atk-title" class="text-center">Atk</td>
+                            <td id="def-title" class="text-center">Def</td>
+                            <td id="atksp-title" class="text-center">AtkSp</td>
+                            <td id="defsp-title" class="text-center">DefSp</td>
+                            <td id="vit-title" class="text-center">Vit</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td class="text-center">{{pkmnData.stats[0].base_stat}}</td>
+                        <td class="text-center">{{pkmnData.stats[1].base_stat}}</td>
+                        <td class="text-center">{{pkmnData.stats[2].base_stat}}</td>
+                        <td class="text-center">{{pkmnData.stats[3].base_stat}}</td>
+                        <td class="text-center">{{pkmnData.stats[4].base_stat}}</td>
+                        <td class="text-center">{{pkmnData.stats[5].base_stat}}</td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Abilities -->
+    <div>
+        <div class="w-100 text-center">
+            <span class="fw-bold fs-3">Abilities</span>
+        </div>
+        <table class="table table-bordered">
+            <tbody>
+                <tr *ngFor="let ability of abilitiesData">
+                    <th>
+                        <div class="d-flex flex-column">
+                            <div>{{capitalize(ability.name)}}</div>
+                            <div *ngIf="ability.is_hidden" class="hidden-ability">
+                                Hidden
+                            </div>
+                        </div>
+                    </th>
+                    <td>{{displayEnglishAbilityEffect(ability)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Moves -->
+    <div class="mb-5">
+        <div class="w-100 text-center">
+            <span class="fw-bold fs-3">Moves</span>
+        </div>
+        <table class="table table-bordered move-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Level</th>
+                    <th>Name</th>
+                    <th>PP</th>
+                    <th>Type</th>
+                    <th>Damage</th>
+                    <th>Accuracy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let move of movesData">
+                    <td>{{move.id}}</td>
+                    <td>{{move.level_learned_at}}</td>
+                    <td>{{capitalize(move.name)}}</td>
+                    <td>{{move.pp}}</td>
+                    <td>{{move.damage_class.name}}</td>
+                    <td *ngIf="move.power">{{move.power}}</td>
+                    <td *ngIf="!move.power">~</td>
+                    <td *ngIf="move.accuracy">{{move.accuracy}}</td>
+                    <td *ngIf="!move.accuracy">~</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
