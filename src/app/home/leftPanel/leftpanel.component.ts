@@ -40,7 +40,7 @@ export class LeftPanelComponent {
     page: number = 1; 
 
     // Service used to update the right panel when selecting a pokémon on the left panel list
-    sendMessage(pkmnName): void {
+    sendPkmnToShow(pkmnName): void {
       this.panelService.sendCustomEvent(pkmnName);
     }
 

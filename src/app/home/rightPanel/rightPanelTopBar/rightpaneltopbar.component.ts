@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { HttpService } from "../../services/httpService";
+import { PanelService } from "../../services/panelService";
 
  @Component({
      selector: 'right-panel-top-bar',
@@ -10,7 +11,8 @@ import { HttpService } from "../../services/httpService";
  export class RightPanelTopBarComponent implements OnInit {
 
     constructor(
-        private httpService: HttpService
+        private httpService: HttpService,
+        private panelService: PanelService
     ) {}
 
     @Input() nbPkmn: number = 0;
@@ -19,8 +21,17 @@ import { HttpService } from "../../services/httpService";
     // Next and previous pkmns to display on top bar
     pkmnAround: any = {prev: [], next: []};
 
+    // Service used to update the right panel when selecting a pokémon on the left panel list
+    sendPkmnToShow(pkmnName): void {
+      this.panelService.sendCustomEvent(pkmnName);
+    }
+
     ngOnInit() {
-        this.getAroundPkmn(this.pkmnData.id);
+      this.getAroundPkmn(this.pkmnData.id);
+    }
+
+    ngOnChanges() {
+      this.getAroundPkmn(this.pkmnData.id);
     }
 
     getAroundPkmn(pkmnId) {

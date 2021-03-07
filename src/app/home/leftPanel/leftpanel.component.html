@@ -35,7 +35,7 @@
         <tbody>
             <tr *ngFor="let pkmn of pkmnArray">
                 <td>
-                    <a (click)="sendMessage(pkmn.name)" class="pkmn-link">
+                    <a (click)="sendPkmnToShow(pkmn.name)" class="pkmn-link">
                         {{pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1)}}
                     </a>
                 </td>

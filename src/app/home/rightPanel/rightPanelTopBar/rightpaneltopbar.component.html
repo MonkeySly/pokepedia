@@ -1,5 +1,5 @@
 <div class="row w-100 mb-5">
-    <div class="col-4 text-center d-flex flex-column top-pkmn" *ngIf="pkmnAround.prev">
+    <div class="col-4 text-center d-flex flex-column top-pkmn" *ngIf="pkmnAround.prev" (click)="sendPkmnToShow(pkmnAround.prev.name)">
         <div>
             <img [src]="pkmnAround.prev.sprites?.front_default">
         </div>
@@ -15,7 +15,7 @@
             #{{pkmnData.id | number: '3.0'}} {{capitalize(pkmnData.name)}}
         </div>
     </div>
-    <div class="col-4 text-center d-flex flex-column top-pkmn" *ngIf="pkmnAround.next">
+    <div class="col-4 text-center d-flex flex-column top-pkmn" *ngIf="pkmnAround.next" (click)="sendPkmnToShow(pkmnAround.next.name)">
         <div>
             <img [src]="pkmnAround.next.sprites?.front_default">
         </div>
