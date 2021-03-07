@@ -1,6 +1,13 @@
 <div class="container pt-5" *ngIf="settingsDict">
-    <div class="mb-3" *ngIf="nbPkmn && nbPkmnGens">
-        Currently {{nbPkmn}} Pokémons in database across {{nbPkmnGens}} generations
+    <div class="mb-3 d-flex flex-column" *ngIf="nbPkmn && nbPkmnGens">
+        <div class="d-flex flex-row justify-content-between">
+            <div>Pokémons:</div>
+            <div class="fw-bold">{{nbPkmn}}</div>
+        </div>
+        <div class="d-flex flex-row justify-content-between">
+            <div>Generations:</div>
+            <div class="fw-bold">{{nbPkmnGens}}</div>
+        </div>
     </div>
 
     <div class="d-flex flex-row justify-content-center">
