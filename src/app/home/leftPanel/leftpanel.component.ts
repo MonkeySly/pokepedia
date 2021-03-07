@@ -50,6 +50,9 @@ export class LeftPanelComponent {
     // Fav Pokémons Dict
     favPkmnsArray = [];
 
+    // Are we in the favourite list page?
+    isFavListPage: boolean = false;
+
     // Urls to fetch at poekapi.co
     urls = {
       pokemon: 'https://pokeapi.co/api/v2/pokemon',
@@ -96,8 +99,27 @@ export class LeftPanelComponent {
     }
 
     removeFavPkmn(pkmnName) {
+      if (this.isFavListPage) {
+        let index = 0;
+        this.pkmnArray.forEach(elem => {
+          if (elem.name === pkmnName) {
+              this.pkmnArray.splice(index, 1);
+          }
+          index += 1;
+        })
+      }
       this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
       this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
+    }
+
+    allListPage() {
+      this.getPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
+      this.isFavListPage = false;
+    }
+
+    favListPage() {
+      this.getFavPkmnArray();
+      this.isFavListPage = true;
     }
 
     prevPage() {
@@ -123,5 +145,18 @@ export class LeftPanelComponent {
           console.log('error:', error);
         }
       );
+    }
+
+    getFavPkmnArray() {
+      this.pkmnArray = [];
+      for (let pkmnName of this.favPkmnsArray) {
+        this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + pkmnName).subscribe(result => {
+            let pkmn = this.httpService.requestResultHandler(result);
+            this.pkmnArray.push({name: pkmn.name});
+          }, error => {
+            console.log('error:', error);
+          }
+        );
+      }
     }
   }
