@@ -74,7 +74,6 @@ export class RightPanelComponent implements OnInit {
             this.httpService.get('https://pokeapi.co/api/v2/move/' + move.move.name).subscribe(result => {
               let tmp = this.httpService.requestResultHandler(result);
               tmp.level_learned_at = move.version_group_details[0].level_learned_at;
-              console.log(move);
               this.movesData.push(tmp);
             }, error => {
               console.log('error: ', error)
