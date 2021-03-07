@@ -17,6 +17,7 @@ import { RightPanelTopBarComponent } from './home/rightPanel/rightPanelTopBar/ri
 import { CookieService } from 'ng2-cookies';
 import { SettingsService } from './home/services/settingsService';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome'
+import { ThemeService } from './home/services/themeService';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
     HttpService,
     PanelService,
     SettingsService,
+    ThemeService,
     LeftPanelComponent,
     RightPanelComponent,
     SettingsComponent,

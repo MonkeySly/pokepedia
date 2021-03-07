@@ -1,8 +1,7 @@
+.page-link {
+    cursor: pointer;
+}
+
 .pkmn-link {
-    color: white;
-    &:hover {
-        color:darkblue;
-        text-decoration: underline;
-        cursor: pointer;
-    }
+    cursor: pointer;
 }

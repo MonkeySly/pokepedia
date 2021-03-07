@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as fasStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -31,6 +31,8 @@ export class LeftPanelComponent {
       // FontAwesome icons
       faLibrary.addIcons(fasStar);
       faLibrary.addIcons(farStar);
+      faLibrary.addIcons(faChevronRight);
+      faLibrary.addIcons(faChevronLeft);
     }
 
     // Inputs

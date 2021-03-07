@@ -1,0 +1,61 @@
+.dark-theme {
+
+    background-color: $dark;
+    color: $white;
+
+    div, nav {
+        background-color: $dark;
+    }
+
+    input {
+        background-color: $dark;
+        color: $white;
+    }
+
+    p, span, td, th {
+        color: $white;
+    }
+
+    a {
+        color: $white;
+        &:hover {
+            color: $orange;
+        }
+    }
+
+    .reverse-theme {
+        background-color: $white;
+        color: $dark;
+    }
+
+    .attribute-block {
+        border: 1px solid $white;
+    }
+
+    #navbar {
+        border-bottom: 2px solid $white;
+    }
+
+    #navbar .search-input {
+        border-bottom: 2px solid $orange;
+    }
+
+    #navbar .search-icon {
+        border-bottom: 2px solid $orange;
+    }
+
+    // Bootstrap related
+    .input-group-text {
+        background-color: $dark;
+        color: $white;
+    }
+
+    .page-link {
+        background-color: $dark;
+        color: $white;
+        &:hover {
+            color: $dark;
+            background-color: $white;
+        }
+    }
+}

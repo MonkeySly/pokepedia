@@ -1,4 +1,4 @@
-<div class="container pt-3" *ngIf="dataReceived">
+<div class="container pt-3 mt-5" *ngIf="dataReceived">
     <right-panel-top-bar [nbPkmn]="nbPkmn" [pkmnData]="pkmnData"></right-panel-top-bar>
     <!-- Basic data -->
     <div class="row">
@@ -15,46 +15,57 @@
                 <p class="fw-bold fs-2">#{{pkmnData.id | number:'3.0'}} - {{capitalize(pkmnData.name)}}</p>
             </div>
             <!-- Types -->
-            <div class="row mb-1 attribute-block">
-                <div class="col-2 attribute-title py-1">Type(s):</div>
+            <div class="row mb-1 attribute-block rverse">
+                <span class="col-2 attribute-title reverse-theme py-1">
+                    Type(s):
+                </span>
                 <div class="col fw-bold py-1">
-                    {{capitalize(pkmnData.types[0].type.name)}}
+                    <span>{{capitalize(pkmnData.types[0].type.name)}}</span>
                     <span *ngIf="pkmnData.types.length > 1">
                         &nbsp;- <span class="fw-bold">{{capitalize(pkmnData.types[1].type.name)}}</span>
                         </span>
                 </div>
             </div>
             <!-- Height -->
-            <div class="row mb-2 attribute-block">
-                <div class="col-2 attribute-title py-1">Height:</div>
-                <div class="col fw-bold py-1">{{convertHeight(pkmnData.height)}}m</div>
+            <div class="row mb-2 attribute-block reverse-theme">
+                <div class="col-2 attribute-title reverse-theme py-1">
+                    <span class="reverse-theme">Height:</span>
+                </div>
+                <div class="col fw-bold py-1">
+                    <span>{{convertHeight(pkmnData.height)}}m</span>
+                </div>
             </div>
             <!-- Weight -->
-            <div class="row mb-2 attribute-block">
-                <div class="col-2 attribute-title py-1">Weight:</div>
-                <div class="col fw-bold py-1">{{convertWeight(pkmnData.weight)}}kg</div>
+            <div class="row mb-2 attribute-block reverse-theme">
+                <div class="col-2 attribute-title reverse-theme py-1">
+                    <span class="reverse-theme">Weight:</span>
+                </div>
+                <div class="col fw-bold py-1">
+                    <span>{{convertWeight(pkmnData.weight)}}kg</span>
+                </div>
             </div>
+            <!-- Stats -->
             <div class="my-2">
-                <table class="table">
+                <table class="table table-borderless stats-table">
                     <thead>
                         <tr>
                             <td></td>
-                            <td id="hp-title" class="text-center">HP</td>
-                            <td id="atk-title" class="text-center">Atk</td>
-                            <td id="def-title" class="text-center">Def</td>
-                            <td id="atksp-title" class="text-center">AtkSp</td>
-                            <td id="defsp-title" class="text-center">DefSp</td>
-                            <td id="vit-title" class="text-center">Vit</td>
+                            <td class="text-center fw-bold hp">HP</td>
+                            <td class="text-center fw-bold atk">Atk</td>
+                            <td class="text-center fw-bold def">Def</td>
+                            <td class="text-center fw-bold atksp">AtkSp</td>
+                            <td class="text-center fw-bold defsp">DefSp</td>
+                            <td class="text-center fw-bold vit">Vit</td>
                         </tr>
                     </thead>
                     <tbody>
                         <th class="text-center">Base stats</th>
-                        <td class="text-center">{{pkmnData.stats[0].base_stat}}</td>
-                        <td class="text-center">{{pkmnData.stats[1].base_stat}}</td>
-                        <td class="text-center">{{pkmnData.stats[2].base_stat}}</td>
-                        <td class="text-center">{{pkmnData.stats[3].base_stat}}</td>
-                        <td class="text-center">{{pkmnData.stats[4].base_stat}}</td>
-                        <td class="text-center">{{pkmnData.stats[5].base_stat}}</td>
+                        <td class="text-center hp fw-bold">{{pkmnData.stats[0].base_stat}}</td>
+                        <td class="text-center atk fw-bold">{{pkmnData.stats[1].base_stat}}</td>
+                        <td class="text-center def fw-bold">{{pkmnData.stats[2].base_stat}}</td>
+                        <td class="text-center atksp fw-bold">{{pkmnData.stats[3].base_stat}}</td>
+                        <td class="text-center defsp fw-bold">{{pkmnData.stats[4].base_stat}}</td>
+                        <td class="text-center vit fw-bold">{{pkmnData.stats[5].base_stat}}</td>
                     </tbody>
                 </table>
             </div>
@@ -65,12 +76,12 @@
         <div class="w-100 text-center">
             <span class="fw-bold fs-3">Abilities</span>
         </div>
-        <table class="table table-bordered">
+        <table class="table table-borderless">
             <tbody>
                 <tr *ngFor="let ability of abilitiesData">
                     <th>
                         <div class="d-flex flex-column">
-                            <div>{{capitalize(ability.name)}}</div>
+                            <span>{{capitalize(ability.name)}}</span>
                             <div *ngIf="ability.is_hidden" class="hidden-ability">
                                 Hidden
                             </div>
@@ -87,7 +98,7 @@
         <div class="w-100 text-center">
             <span class="fw-bold fs-3">Moves</span>
         </div>
-        <table class="table table-bordered move-table">
+        <table class="table move-table">
             <thead>
                 <tr>
                     <th>ID</th>

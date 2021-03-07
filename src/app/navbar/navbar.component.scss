@@ -1,21 +1,20 @@
-#navbar {
-    border-bottom: 2px solid gray;
-    background-color: white;
+nav {
+    padding: 0;
+}
+
+.navbar-links {
+    cursor: pointer;
 }
 
 .search-input {
     border: none;
-    border-bottom: 2px solid blue;
     width: 90%;
     &:focus {
         outline: none;
         border: none;
-        border-bottom: 2px solid blue;
     }
 }
 
 .search-icon {
     border: none;
-    border-bottom: 2px solid blue;
-    background-color: white;
 }

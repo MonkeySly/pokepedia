@@ -20,7 +20,10 @@ export class SettingsComponent implements OnInit {
     // Settings
     settingsDict = {
       nbPkmnByPage: 20,
+      isDarkTheme: false,
     }
+
+    tmpTheme: boolean;
 
     nbPkmnByPageChoices = [
       5,
@@ -44,15 +47,22 @@ export class SettingsComponent implements OnInit {
     
     ngOnInit() {
       this.updateCookies();
+      this.tmpTheme = this.settingsDict.isDarkTheme;
+    }
+
+    switchTheme() {
+      this.tmpTheme = !this.tmpTheme;
     }
 
     saveSettings() {
+      this.settingsDict.isDarkTheme = this.tmpTheme;
       this.addCookie();
       this.toast.success("Settings succesfully saved!", 'Settings');
     }
 
     resetSettings() {
       this.settingsDict.nbPkmnByPage = 20; // Default value
+      this.settingsDict.isDarkTheme = false;
       this.addCookie();
       this.updateCookies();
     }

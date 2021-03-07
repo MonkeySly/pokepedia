@@ -1,13 +1,13 @@
-<nav id="navbar" class="navbar navbar-default fixed-top">
-    <div class="container-fluid">
+<nav class="navbar navbar-default fixed-top" [ngClass]="isDarkTheme ? 'dark-theme' : 'light-theme'">
+    <div class="container-fluid py-2" id="navbar">
         <div class="row align-items-center w-100">
             <div class="col-2 justify-content-center">
-                <a routerLink="" routerLinkActive="active" class="fs-4 fw-bold">
+                <a routerLink="" routerLinkActive="active" class="fs-4 fw-bold navbar-links">
                     <fa-icon [icon]="faHome"></fa-icon> Home
                 </a>
             </div>
             <div class="col-2 h-100">
-                <a routerLink="settings" routerLinkActive="active" class="fs-4 fw-bold">
+                <a routerLink="settings" routerLinkActive="active" class="fs-4 fw-bold navbar-links">
                     <fa-icon [icon]="faCog"></fa-icon> Settings
                 </a>
             </div>

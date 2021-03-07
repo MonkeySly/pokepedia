@@ -1,39 +1,40 @@
-#right-panel {
-    background-color: white;
-}
+@import '../../../colors';
 
 .attribute-block {
-    border: 1px solid black;
     border-radius: 5px;
 }
 
 .attribute-title {
-    background-color: black;
-    color: white;
     border-radius: 5px;
 }
 
-#hp-title {
+.hp {
+    color: $dark;
     background-color: #A0F0A0;
 }
 
-#atk-title {
+.atk {
+    color: $dark;
     background-color: #F0A0A0;
 }
 
-#def-title {
+.def {
+    color: $dark;
     background-color: #F0F0A0;
 }
 
-#atksp-title {
+.atksp {
+    color: $dark;
     background-color: #F8C8A0;
 }
 
-#defsp-title {
+.defsp {
+    color: $dark;
     background-color: #E8C868;
 }
 
-#vit-title {
+.vit {
+    color: $dark;
     background-color: #A0F0F0;
 }
 
@@ -47,5 +48,4 @@
 .move-table thead tr th {
     background-color: black;
     color: white;
-    text-align: center;
 }

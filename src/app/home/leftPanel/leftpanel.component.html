@@ -1,16 +1,16 @@
-<div class="container pt-5" *ngIf="settingsDict">
+<div class="container pt-5 mt-5" *ngIf="settingsDict">
     <div class="mb-3 d-flex flex-column" *ngIf="nbPkmn && nbPkmnGens">
         <div class="d-flex flex-row justify-content-between">
-            <div>Pokémons:</div>
-            <div class="fw-bold">{{nbPkmn}}</div>
+            <span>Pokémons:</span>
+            <span class="fw-bold">{{nbPkmn}}</span>
         </div>
         <div class="d-flex flex-row justify-content-between">
-            <div>Generations:</div>
-            <div class="fw-bold">{{nbPkmnGens}}</div>
+            <span>Generations:</span>
+            <span class="fw-bold">{{nbPkmnGens}}</span>
         </div>
         <div class="d-flex flex-row justify-content-between">
-            <div>Favourites:</div>
-            <div class="fw-bold">{{favPkmnsArray.length}}</div>
+            <span>Favourites:</span>
+            <span class="fw-bold">{{favPkmnsArray.length}}</span>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
             <ul class="pagination">
                 <li class="page-item">
                     <a class="page-link" aria-label="Previous" (click)="prevPage()">
-                        <span aria-hidden="true">&laquo;</span>
+                        <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
                         <span class="visually-hidden-focusable">Previous</span>
                     </a>
                 </li>
@@ -28,7 +28,7 @@
                 </li>
                 <li class="page-item">
                     <a class="page-link" aria-label="Next" (click)="nextPage()">
-                        <span aria-hidden="true">&raquo;</span>
+                        <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
                         <span class="visually-hidden-focusable">Next</span>
                     </a>
                 </li>
@@ -39,8 +39,8 @@
     <table class="table">
         <thead>
             <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Favorite</th>
+            <th scope="col text-center">Name</th>
+            <th scope="col text-center">Favourite</th>
             </tr>
         </thead>
         <tbody>
@@ -50,7 +50,7 @@
                         {{pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1)}}
                     </a>
                 </td>
-                <td>
+                <td class=text-center>
                     <button *ngIf="!favPkmnsArray.includes(pkmn.name)"
                             class="btn btn-outline-warning"
                             (click)="setNewFavPkmn(pkmn.name)">

@@ -1,0 +1,58 @@
+@import "./colors";
+
+.light-theme {
+
+    background-color: $white;
+    color: $dark;
+
+    div, nav, input {
+        background-color: $white;
+    }
+
+    p, span, td, th {
+        color: $dark;
+    }
+
+    a {
+        color: $dark;
+        &:hover {
+            color: $cyan;
+        }
+    }
+
+    .reverse-theme {
+        background-color: $dark;
+        color: $white;
+    }
+
+    .attribute-block {
+        border: 1px solid $dark;
+    }
+
+    #navbar {
+        border-bottom: 2px solid $dark;
+    }
+
+    #navbar .search-input {
+        border-bottom: 2px solid $cyan;
+    }
+
+    #navbar .search-icon {
+        border-bottom: 2px solid $cyan;
+    }
+
+    // Bootstrap related
+    .input-group-text {
+        background-color: $lightgrey;
+        color: $dark;
+    }
+
+    .page-link {
+        background-color: $white;
+        color: $cyan;
+        &:hover {
+            color: $white;
+            background-color: $cyan;
+        }
+    }
+}
