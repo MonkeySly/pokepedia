@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { CookieService } from 'ng2-cookies';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { SettingsComponent } from 'src/app/settings/settings.component';
 import { RightPanelComponent } from '../rightPanel/rightpanel.component';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
+import { SettingsService } from '../services/settingsService';
 
 @Component({
   selector: 'left-panel-component',
@@ -15,20 +17,33 @@ import { PanelService } from '../services/panelService';
 export class LeftPanelComponent {
 
   constructor(
-    private httpHandler: HttpService,
-    private settings: SettingsComponent,
-    private panelService: PanelService) {}
+    private httpService: HttpService,
+    private panelService: PanelService,
+    private settingsService: SettingsService,
+    private cookieService: CookieService) {
+
+      this.settingsService.$getEventSubject.subscribe(newSettingsDict => {
+        this.settingsDict = newSettingsDict;
+      });
+
+    }
 
     // Inputs
     // Data to display at the top of the left panel
     @Input() nbPkmn: number;
     @Input() nbPkmnGens: number;
 
+    // Settings cookie name
+    settingsCookieName: string = 'settings_cookie'
+
+    // Settings Dict refresh with services from the settings page
+    settingsDict: any;
+
     // Urls to fetch at poekapi.co
     urls = {
       pokemon: 'https://pokeapi.co/api/v2/pokemon',
       generation: 'https://pokeapi.co/api/v2/generation',
-      arrayPage: 'https://pokeapi.co/api/v2/pokemon?offset=0&count=' + this.settings.nbPkmnByPage,
+      arrayPage: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=',
       prevArrayPage: null,
       nextArrayPage: null,
     }
@@ -45,7 +60,14 @@ export class LeftPanelComponent {
     }
 
     ngOnInit() {
-      this.getPkmnArray(this.urls.arrayPage);
+      console.log('left panel settings dict', this.settingsDict);
+      this.getSettingsData();
+      this.getPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
+    }
+
+    getSettingsData() {
+      let cookie = this.cookieService.get(this.settingsCookieName);
+      this.settingsDict = JSON.parse(cookie);
     }
 
     prevPage() {
@@ -60,10 +82,11 @@ export class LeftPanelComponent {
 
     getPkmnArray(url: string) {
       this.pkmnArray = [];
-      this.httpHandler.get(url).subscribe(result => {
-          let data = this.httpHandler.requestResultHandler(result);
+      this.httpService.get(url).subscribe(result => {
+          let data = this.httpService.requestResultHandler(result);
           this.urls.prevArrayPage = data.previous;
           this.urls.nextArrayPage = data.next;
+          console.log('size result', data.results.length);
           for (let pkmn of data.results) {
             this.pkmnArray.push({name: pkmn.name});
           }

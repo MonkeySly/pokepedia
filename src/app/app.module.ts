@@ -15,6 +15,8 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RightPanelTopBarComponent } from './home/rightPanel/rightPanelTopBar/rightpaneltopbar.component';
+import { CookieService } from 'ng2-cookies';
+import { SettingsService } from './home/services/settingsService';
 
 @NgModule({
   declarations: [
@@ -38,10 +40,12 @@ import { RightPanelTopBarComponent } from './home/rightPanel/rightPanelTopBar/ri
   providers: [
     HttpService,
     PanelService,
+    SettingsService,
     LeftPanelComponent,
     RightPanelComponent,
     SettingsComponent,
     ToastrService,
+    CookieService,
   ],
   bootstrap: [AppComponent]
 })
