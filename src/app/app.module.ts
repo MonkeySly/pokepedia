@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RightPanelTopBarComponent } from './home/rightPanel/rightPanelTopBar/rightpaneltopbar.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HomeComponent,
     LeftPanelComponent,
     RightPanelComponent,
+    RightPanelTopBarComponent,
     SettingsComponent,
   ],
   imports: [

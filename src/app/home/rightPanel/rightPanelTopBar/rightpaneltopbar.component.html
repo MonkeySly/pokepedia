@@ -1,0 +1,26 @@
+<div class="row w-100 mb-5">
+    <div class="col-4 text-center d-flex flex-column top-pkmn" *ngIf="pkmnAround.prev">
+        <div>
+            <img [src]="pkmnAround.prev.sprites?.front_default">
+        </div>
+        <div class="top-pkmn-name">
+            #{{pkmnAround.prev.id | number: '3.0'}} {{capitalize(pkmnAround.prev.name)}}
+        </div>
+    </div>
+    <div class="col-4 text-center d-flex flex-column top-pkmn">
+        <div>
+            <img [src]="pkmnData.sprites?.front_default">
+        </div>
+        <div class="top-pkmn-name">
+            #{{pkmnData.id | number: '3.0'}} {{capitalize(pkmnData.name)}}
+        </div>
+    </div>
+    <div class="col-4 text-center d-flex flex-column top-pkmn" *ngIf="pkmnAround.next">
+        <div>
+            <img [src]="pkmnAround.next.sprites?.front_default">
+        </div>
+        <div class="top-pkmn-name">
+            #{{pkmnAround.next.id | number: '3.0'}} {{capitalize(pkmnAround.next.name)}}
+        </div>
+    </div>
+</div>

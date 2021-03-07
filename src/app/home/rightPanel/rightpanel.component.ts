@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subscription, throwError } from 'rxjs';
+import { forkJoin, Observable, Subscription, throwError } from 'rxjs';
+import { HomeComponent } from '../home.component';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
 
@@ -12,6 +13,9 @@ import { PanelService } from '../services/panelService';
 export class RightPanelComponent implements OnInit {
 
     dataReceived: boolean = false;
+
+    @Input() nbPkmn: number = 0;
+    @Input() nbPkmnGens: number = 0;
 
     pkmnName: string = 'haunter';
 
@@ -29,7 +33,6 @@ export class RightPanelComponent implements OnInit {
           this.pkmnName = newPkmnName;
           this.ngOnInit();
       });
-
     }
 
     ngOnInit() {
@@ -40,15 +43,14 @@ export class RightPanelComponent implements OnInit {
     getPkmnData() {
       this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + this.pkmnName).subscribe(result => {
         this.pkmnData = this.httpService.requestResultHandler(result);
-        console.log(this.pkmnData);
         this.getAbilitiesData()
         this.getMovesData();
-        
-        this.dataReceived = true;
       }, error => {
         console.log('error: ', error);
         this.toastr.error('Could not find any Pokémon with such name. Please try again.')
         return throwError(error);
+      }, () => {
+        this.dataReceived = true;
       })
     }
 
@@ -90,6 +92,9 @@ export class RightPanelComponent implements OnInit {
     }
 
     capitalize(str: string) {
+        if (!str) {
+          return '';
+        }
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 

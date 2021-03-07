@@ -1,5 +1,4 @@
-import { HttpHandler } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -20,6 +19,11 @@ export class LeftPanelComponent {
     private settings: SettingsComponent,
     private panelService: PanelService) {}
 
+    // Inputs
+    // Data to display at the top of the left panel
+    @Input() nbPkmn: number;
+    @Input() nbPkmnGens: number;
+
     // Urls to fetch at poekapi.co
     urls = {
       pokemon: 'https://pokeapi.co/api/v2/pokemon',
@@ -32,10 +36,6 @@ export class LeftPanelComponent {
     // Array of pokémons to show on the left panel
     pkmnArray: Array<any> = [];
 
-    // Data to display at the top of the left panel
-    pkmnNb: number;
-    pkmnNbGens: number;
-
     // Pagination data
     page: number = 1; 
 
@@ -45,10 +45,7 @@ export class LeftPanelComponent {
     }
 
     ngOnInit() {
-      this.getNbPkmn();
-      this.getPkmnNbGenerations();
       this.getPkmnArray(this.urls.arrayPage);
-      
     }
 
     prevPage() {
@@ -70,24 +67,6 @@ export class LeftPanelComponent {
           for (let pkmn of data.results) {
             this.pkmnArray.push({name: pkmn.name});
           }
-        }, error => {
-          console.log('error:', error);
-        }
-      );
-    }
-
-    getNbPkmn() {
-      this.httpHandler.get(this.urls.pokemon).subscribe(result => {
-          this.pkmnNb = this.httpHandler.requestResultHandler(result).count;
-        }, error => {
-          console.log('error:', error);
-        }
-      );
-    }
-
-    getPkmnNbGenerations() {
-      this.httpHandler.get(this.urls.generation).subscribe(result => {
-          this.pkmnNbGens = this.httpHandler.requestResultHandler(result).count;
         }, error => {
           console.log('error:', error);
         }

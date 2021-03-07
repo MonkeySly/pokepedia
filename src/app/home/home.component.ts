@@ -1,15 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import {Router} from '@angular/router';
+import { throwError } from 'rxjs';
+import { HttpService } from './services/httpService';
 
 @Component({
   selector: 'home-component',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  constructor(private router: Router) {}
+export class HomeComponent implements OnInit {
+  constructor(
+    private httpService: HttpService,
+  ) {}
+
+  nbPkmn: number = 0;
+  nbPkmnGens: number = 0;
 
   ngOnInit() {
     console.log("home component loaded");
+    this.getNbPkmn();
+    this.getPkmnNbGenerations();
   }
+
+  getNbPkmn() {
+    this.httpService.get('https://pokeapi.co/api/v2/pokemon/').subscribe(result => {
+        this.nbPkmn = this.httpService.requestResultHandler(result).count;
+      }, error => {
+        console.log('error:', error);
+        return throwError(error);
+      }
+    );
+  }
+
+  getPkmnNbGenerations() {
+    this.httpService.get('https://pokeapi.co/api/v2/generation/').subscribe(result => {
+        this.nbPkmnGens = this.httpService.requestResultHandler(result).count;
+      }, error => {
+        console.log('error:', error);
+        return throwError(error);
+      }
+    );
+  }
+
 }
