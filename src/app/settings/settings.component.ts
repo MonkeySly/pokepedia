@@ -12,7 +12,6 @@ import { SettingsService } from '../home/services/settingsService';
 
 export class SettingsComponent implements OnInit {
     constructor(
-      private route: ActivatedRoute,
       private cookieService: CookieService,
       private settingsService: SettingsService,
       private toast: ToastrService,
@@ -44,7 +43,6 @@ export class SettingsComponent implements OnInit {
     }
     
     ngOnInit() {
-      console.log('settings page loaded');
       this.updateCookies();
     }
 

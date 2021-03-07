@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
   nbPkmnGens: number = 0;
 
   ngOnInit() {
-    console.log("home component loaded");
     this.getNbPkmn();
     this.getPkmnNbGenerations();
+    console.log('%c Oh my! Time to get some coffee and get these sweet EVs!', 'color: #FF0000');
   }
 
   getNbPkmn() {

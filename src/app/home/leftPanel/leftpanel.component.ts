@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { SettingsComponent } from 'src/app/settings/settings.component';
-import { RightPanelComponent } from '../rightPanel/rightpanel.component';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
 import { SettingsService } from '../services/settingsService';
@@ -20,12 +21,16 @@ export class LeftPanelComponent {
     private httpService: HttpService,
     private panelService: PanelService,
     private settingsService: SettingsService,
-    private cookieService: CookieService) {
+    private cookieService: CookieService,
+    faLibrary: FaIconLibrary) {
 
       this.settingsService.$getEventSubject.subscribe(newSettingsDict => {
         this.settingsDict = newSettingsDict;
       });
 
+      // FontAwesome icons
+      faLibrary.addIcons(fasStar);
+      faLibrary.addIcons(farStar);
     }
 
     // Inputs
@@ -33,11 +38,15 @@ export class LeftPanelComponent {
     @Input() nbPkmn: number;
     @Input() nbPkmnGens: number;
 
-    // Settings cookie name
+    // Cookie names
     settingsCookieName: string = 'settings_cookie'
+    favPkmnCookieName: string = 'fav_cookie'
 
     // Settings Dict refresh with services from the settings page
     settingsDict: any;
+
+    // Fav Pokémons Dict
+    favPkmnsArray = [];
 
     // Urls to fetch at poekapi.co
     urls = {
@@ -60,14 +69,33 @@ export class LeftPanelComponent {
     }
 
     ngOnInit() {
-      console.log('left panel settings dict', this.settingsDict);
       this.getSettingsData();
       this.getPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
+      this.getFavPkmnData();
     }
 
     getSettingsData() {
       let cookie = this.cookieService.get(this.settingsCookieName);
       this.settingsDict = JSON.parse(cookie);
+    }
+
+    getFavPkmnData() {
+      this.favPkmnsArray = []; // Reset
+      let cookie = this.cookieService.get(this.favPkmnCookieName);
+      let favPkmnsArrayTmp = cookie.split(','); // Convert from string to array
+      if (favPkmnsArrayTmp.length > 0 && favPkmnsArrayTmp[0] != "") {
+        this.favPkmnsArray = favPkmnsArrayTmp;
+      }
+    }
+
+    setNewFavPkmn(pkmnName) {
+      this.favPkmnsArray.push(pkmnName);
+      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
+    }
+
+    removeFavPkmn(pkmnName) {
+      this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
+      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
     }
 
     prevPage() {
@@ -86,7 +114,6 @@ export class LeftPanelComponent {
           let data = this.httpService.requestResultHandler(result);
           this.urls.prevArrayPage = data.previous;
           this.urls.nextArrayPage = data.next;
-          console.log('size result', data.results.length);
           for (let pkmn of data.results) {
             this.pkmnArray.push({name: pkmn.name});
           }

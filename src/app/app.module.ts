@@ -13,10 +13,10 @@ import { PanelService } from './home/services/panelService';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RightPanelTopBarComponent } from './home/rightPanel/rightPanelTopBar/rightpaneltopbar.component';
 import { CookieService } from 'ng2-cookies';
 import { SettingsService } from './home/services/settingsService';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   declarations: [

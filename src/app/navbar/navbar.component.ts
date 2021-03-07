@@ -24,8 +24,4 @@ export class NavbarComponent {
       let a = this.panelService.sendCustomEvent(this.pkmnToSearch);
       this.pkmnToSearch = "";
     }
-
-    ngOnInit() {
-      console.log("navbar loaded");
-    }
 }

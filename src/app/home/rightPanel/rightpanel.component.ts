@@ -36,7 +36,6 @@ export class RightPanelComponent implements OnInit {
     }
 
     ngOnInit() {
-      console.log("right panel loaded");
       this.getPkmnData();
     }
 
