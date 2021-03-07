@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
 
     // Service used to update the right panel when selecting a pokémon on the left panel list
     searchPkmn(): void {
-      let a = this.panelService.sendCustomEvent(this.pkmnToSearch);
+      let a = this.panelService.sendCustomEvent(this.pkmnToSearch.toLowerCase());
       this.pkmnToSearch = "";
     }
 }
