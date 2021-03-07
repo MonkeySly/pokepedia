@@ -16,6 +16,10 @@
         color: $white;
     }
 
+    .pagination-span:hover, .pagination-span a:hover {
+        color: $dark !important;
+    }
+
     a {
         color: $white;
         &:hover {
