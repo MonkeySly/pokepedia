@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { PanelService } from '../home/services/panelService';
 
 @Component({
@@ -14,6 +14,8 @@ export class NavbarComponent {
 
     // FontAwesome Icons
     faSearch = faSearch;
+    faHome = faHome;
+    faCog = faCog;
 
     pkmnToSearch: string = "";
 
