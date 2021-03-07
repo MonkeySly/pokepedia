@@ -35,6 +35,7 @@ import { PanelService } from "../../services/panelService";
     }
 
     getAroundPkmn(pkmnId) {
+        this.pkmnAround = {};
         if (pkmnId > 1) {
           this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + (pkmnId-1)).subscribe(result => {
             this.pkmnAround.prev = this.httpService.requestResultHandler(result);
