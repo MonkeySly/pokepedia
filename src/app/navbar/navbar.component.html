@@ -5,7 +5,19 @@
             <div class="col-2 h-100"><a routerLink="settings" routerLinkActive="active">Settings</a></div>
             <div class="col-7 h-100">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                    <form #form="ngForm" (ngSubmit)="searchPkmn()" class="w-100">
+                        <div class="input-group">
+                            <fa-icon class="input-group-text search-icon" [icon]="faSearch"></fa-icon>
+                            <input
+                            autocomplete="off"
+                            [(ngModel)]="pkmnToSearch"
+                            type="text"
+                            name="pkmnToSearch"
+                            class="search-input"
+                            placeholder="Search..."
+                            aria-label="Search">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

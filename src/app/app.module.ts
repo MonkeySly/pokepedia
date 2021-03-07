@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -11,6 +10,10 @@ import { RightPanelComponent } from './home/rightPanel/rightpanel.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpService } from './home/services/httpService';
 import { PanelService } from './home/services/panelService';
+import { FormsModule } from '@angular/forms';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,14 +22,25 @@ import { PanelService } from './home/services/panelService';
     HomeComponent,
     LeftPanelComponent,
     RightPanelComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    FontAwesomeModule,
   ],
-  providers: [HttpService, PanelService, LeftPanelComponent, RightPanelComponent, SettingsComponent],
+  providers: [
+    HttpService,
+    PanelService,
+    LeftPanelComponent,
+    RightPanelComponent,
+    SettingsComponent,
+    ToastrService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

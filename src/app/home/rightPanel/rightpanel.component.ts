@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, Subscription, throwError } from 'rxjs';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
 
@@ -19,12 +19,10 @@ export class RightPanelComponent implements OnInit {
     abilitiesData: Array<any> = [];
     movesData: Array<any> = [];
 
-    private subscriptionPknmName: Subscription;
-
-  constructor(
-    private router: Router,
-    private httpService: HttpService,
-    private panelService: PanelService,
+    constructor(
+      private httpService: HttpService,
+      private panelService: PanelService,
+      private toastr: ToastrService,
     ) {
 
       this.panelService.$getEventSubject.subscribe(newPkmnName => {
@@ -49,6 +47,8 @@ export class RightPanelComponent implements OnInit {
         this.dataReceived = true;
       }, error => {
         console.log('error: ', error);
+        this.toastr.error('Could not find any Pokémon with such name. Please try again.')
+        return throwError(error);
       })
     }
 
