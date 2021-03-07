@@ -70,10 +70,11 @@ export class RightPanelComponent implements OnInit {
     getMovesData() {
       this.movesData = [];
       for (let move of this.pkmnData.moves) {
-        if (move.version_group_details[0].move_learn_method.name != 'machine' && move.version_group_details[0].move_learn_method.name != 'egg') {
+        if (move.version_group_details[0].move_learn_method.name === 'level-up') {
             this.httpService.get('https://pokeapi.co/api/v2/move/' + move.move.name).subscribe(result => {
               let tmp = this.httpService.requestResultHandler(result);
               tmp.level_learned_at = move.version_group_details[0].level_learned_at;
+              console.log(move);
               this.movesData.push(tmp);
             }, error => {
               console.log('error: ', error)
@@ -82,7 +83,7 @@ export class RightPanelComponent implements OnInit {
       }
     }
 
-    displayEnglishAbilityEffect(ability) {
+    displayEnglishAbilityEffect(ability: any): string {
       for (let effect of ability.effect_entries) {
           if (effect.language.name === 'en') {
               return effect.effect;
