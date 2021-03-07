@@ -55,7 +55,7 @@ export class RightPanelComponent implements OnInit {
     }
 
     getAbilitiesData() {
-      this.abilitiesData = [];
+      this.abilitiesData = []; // Reset
       for (let ability of this.pkmnData.abilities) {
           this.httpService.get('https://pokeapi.co/api/v2/ability/' + ability.ability.name).subscribe(result => {
             let abilityArray = this.httpService.requestResultHandler(result);
@@ -63,18 +63,22 @@ export class RightPanelComponent implements OnInit {
             this.abilitiesData.push(abilityArray);
           }, error => {
             console.log('error: ', error);
-          })
+          });
       }
     }
 
     getMovesData() {
-      this.movesData = [];
+      this.movesData = []; // Reset
       for (let move of this.pkmnData.moves) {
         if (move.version_group_details[0].move_learn_method.name === 'level-up') {
             this.httpService.get('https://pokeapi.co/api/v2/move/' + move.move.name).subscribe(result => {
               let tmp = this.httpService.requestResultHandler(result);
               tmp.level_learned_at = move.version_group_details[0].level_learned_at;
               this.movesData.push(tmp);
+              // This sort is.... kind bad, but the synchronous loop prevents me from doing it at the end
+              this.movesData = this.movesData.sort((a, b) => {
+                  return (a.level_learned_at - b.level_learned_at)
+              });
             }, error => {
               console.log('error: ', error)
             });
