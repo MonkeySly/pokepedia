@@ -76,7 +76,7 @@
                 <li class="page-item">
                     <a class="page-link">{{page}}</a>
                 </li>
-                <li class="page-item" *ngIf="pkmnArray.length >= settingsDict.nbPkmnByPage">
+                <li class="page-item" *ngIf="urls.nextArrayPage && this.urls.nextArrayPage != ''">
                     <a class="page-link" aria-label="Next" (click)="nextPage()">
                         <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
                         <span class="visually-hidden-focusable">Next</span>

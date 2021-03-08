@@ -142,13 +142,17 @@ export class LeftPanelComponent implements OnInit {
     }
 
     prevPage() {
-      this.page -= 1;
-      this.requestPkmnArray(this.urls.prevArrayPage);
+      if (this.page > 1) {
+        this.page -= 1;
+        this.requestPkmnArray(this.urls.prevArrayPage);
+      }
     }
 
     nextPage() {
-      this.page += 1;
-      this.requestPkmnArray(this.urls.nextArrayPage);
+      if (this.urls.nextArrayPage && this.urls.nextArrayPage != '') {
+        this.page += 1;
+        this.requestPkmnArray(this.urls.nextArrayPage);
+      }
     }
 
     requestPkmnArray(url: string) {
