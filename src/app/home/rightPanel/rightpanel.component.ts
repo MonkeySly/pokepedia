@@ -20,7 +20,7 @@ export class RightPanelComponent implements OnInit {
     @Input() nbPkmn: number = 0;
     @Input() nbPkmnGens: number = 0;
 
-    pkmnName: string = 'haunter';
+    pkmnName: string = '';
     isFavPkmn: boolean;
 
     // Fav Pkmn cookie
@@ -59,8 +59,12 @@ export class RightPanelComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.getPkmnData();
-      this.getIfFavPkmn();
+      if (this.pkmnName && this.pkmnName != '') {
+        this.getPkmnData();
+        this.getIfFavPkmn();
+      } else {
+        this.dataReceived = true;
+      }
     }
 
     getPkmnData() {
