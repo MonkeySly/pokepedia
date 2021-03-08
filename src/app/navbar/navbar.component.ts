@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
     getSettingsData() {
       let cookie = this.cookieService.get(this.settingsCookieName);
       if (cookie) {
-        this.isDarkTheme = JSON.parse(cookie).isDarkTheme;
+        this.isDarkTheme = JSON.parse(JSON.stringify(cookie)).isDarkTheme;
       }
     }
 
@@ -49,5 +49,9 @@ export class NavbarComponent implements OnInit {
     searchPkmn(): void {
       let a = this.panelService.sendPkmnToDisplayEvent(this.pkmnToSearch.toLowerCase());
       this.pkmnToSearch = "";
+    }
+
+    resetPkmnToDisplay() {
+      this.panelService.sendPkmnToDisplayEvent('');
     }
 }
