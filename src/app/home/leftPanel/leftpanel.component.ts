@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faStar as fasStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar as fasStar, faChevronLeft, faChevronRight, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
@@ -38,6 +38,7 @@ export class LeftPanelComponent implements OnInit {
       faLibrary.addIcons(farStar);
       faLibrary.addIcons(faChevronRight);
       faLibrary.addIcons(faChevronLeft);
+      faLibrary.addIcons(faCircleNotch);
     }
 
     // Inputs
@@ -73,6 +74,9 @@ export class LeftPanelComponent implements OnInit {
 
     // Pagination data
     page: number = 1; 
+
+    // When requesting next list page
+    loading: boolean = true;
 
     // Service used to update the right panel when selecting a pokémon on the left panel list
     sendPkmnToShow(pkmnName): void {
@@ -140,6 +144,7 @@ export class LeftPanelComponent implements OnInit {
     allListPage() {
       this.requestPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
       this.isFavListPage = false;
+      this.page = 1;
     }
 
     favListPage() {
@@ -149,6 +154,7 @@ export class LeftPanelComponent implements OnInit {
 
     prevPage(): boolean {
       if (this.page > 1) {
+        this.loading = true;
         this.page -= 1;
         this.requestPkmnArray(this.urls.prevArrayPage);
         return true;
@@ -158,6 +164,7 @@ export class LeftPanelComponent implements OnInit {
 
     nextPage(): boolean {
       if (this.urls.nextArrayPage && this.urls.nextArrayPage.startsWith('https://pokeapi.co/api/v2/pokemon')) {
+        this.loading = true;
         this.page += 1;
         this.requestPkmnArray(this.urls.nextArrayPage);
         return true;
@@ -189,6 +196,8 @@ export class LeftPanelComponent implements OnInit {
           }
         }, error => {
           console.log('error:', error);
+        }, () => {
+          this.loading = false;
         }
       );
     }
