@@ -15,7 +15,7 @@ import { SettingsService } from '../services/settingsService';
   templateUrl: './leftpanel.component.html',
   styleUrls: ['./leftpanel.component.scss']
 })
-export class LeftPanelComponent {
+export class LeftPanelComponent implements OnInit {
 
   constructor(
     private httpService: HttpService,
