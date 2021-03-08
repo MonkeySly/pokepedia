@@ -18,6 +18,7 @@ import { CookieService } from 'ng2-cookies';
 import { SettingsService } from './home/services/settingsService';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome'
 import { ThemeService } from './home/services/themeService';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ThemeService } from './home/services/themeService';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     FontAwesomeModule,
+    BsDropdownModule.forRoot()
   ],
   providers: [
     HttpService,
