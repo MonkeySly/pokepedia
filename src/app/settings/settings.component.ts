@@ -22,6 +22,7 @@ export class SettingsComponent implements OnInit {
     settingsDict: Settings = new Settings(20, false); // Default values init
 
     tmpTheme: boolean;
+    tmpNbPkmnByPage: number;
 
     nbPkmnByPageChoices = [
       5,
@@ -46,16 +47,37 @@ export class SettingsComponent implements OnInit {
     ngOnInit() {
       this.updateCookies();
       this.tmpTheme = this.settingsDict.isDarkTheme;
+      this.tmpNbPkmnByPage = this.settingsDict.nbPkmnByPage;
     }
 
     switchTheme() {
       this.tmpTheme = !this.tmpTheme;
     }
 
-    saveSettings() {
-      this.settingsDict.isDarkTheme = this.tmpTheme;
-      this.addCookie();
-      this.toast.success("Settings succesfully saved!", 'Settings');
+    changeNbPkmnByPage(value: number) {
+      this.tmpNbPkmnByPage = value;
+    }
+
+    saveSettings(): boolean {
+      if (this.checkNbPkmnByPage()) {
+        this.settingsDict.isDarkTheme = this.tmpTheme;
+        this.settingsDict.nbPkmnByPage = this.tmpNbPkmnByPage;
+        this.addCookie();
+        this.toast.success("Settings succesfully saved!", 'Settings');
+        return true;
+      } else {
+        return false
+      }
+    
+    }
+
+    checkNbPkmnByPage(): boolean {
+      if (this.tmpNbPkmnByPage > 1) {
+        return true;
+      } else {
+        this.toast.error('Cannot set number of Pokémons by page on left panel to ' + this.tmpNbPkmnByPage + '.\nValue is 0 or negative', 'Error');
+        return false
+      }
     }
 
     resetSettings() {

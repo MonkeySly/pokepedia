@@ -41,13 +41,19 @@ describe('SettingsComponent', () => {
     expect(app.settingsDict.isDarkTheme).toEqual(false);
   });
 
-  it('Switch theme and saving', () => {
+  it('switch theme and saving', () => {
     const app = initComponent();
+    const basicSettings: Settings = new Settings(20, false);
+
+    app.settingsDict = basicSettings;
+    app.tmpTheme = basicSettings.isDarkTheme;
+    app.tmpNbPkmnByPage = basicSettings.nbPkmnByPage;
 
     // First theme variable
+    
     expect(app.settingsDict.isDarkTheme).toEqual(false);
     app.switchTheme();
-    app.saveSettings();
+    expect(app.saveSettings()).toEqual(true);
     expect(app.settingsDict.isDarkTheme).toEqual(true);
   });
 
