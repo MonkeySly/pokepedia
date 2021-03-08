@@ -40,7 +40,9 @@ export class HomeComponent implements OnInit {
 
   getSettingsData() {
     let cookie = this.cookieService.get(this.settingsCookieName);
-    this.isDarkTheme = JSON.parse(cookie).isDarkTheme;
+    if (cookie) {
+      this.isDarkTheme = JSON.parse(cookie).isDarkTheme;
+    }
   }
 
   getNbPkmn() {

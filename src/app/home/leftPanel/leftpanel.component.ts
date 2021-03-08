@@ -28,6 +28,12 @@ export class LeftPanelComponent {
         this.settingsDict = newSettingsDict;
       });
 
+      // To receive from PanelService to update favourite pokémon FROM RIGHT
+      this.panelService.$getUpdateFavPkmnFromRightEventSubject.subscribe(pkmnName => {
+          this.updateFavPkmns(pkmnName);
+          this.ngOnInit();
+      });
+
       // FontAwesome icons
       faLibrary.addIcons(fasStar);
       faLibrary.addIcons(farStar);
@@ -45,7 +51,10 @@ export class LeftPanelComponent {
     favPkmnCookieName: string = 'fav_cookie'
 
     // Settings Dict refresh with services from the settings page
-    settingsDict: any;
+    settingsDict: any = {
+      nbPkmnByPage: 20,
+      isDarkTheme: false,
+    }
 
     // Fav Pokémons Dict
     favPkmnsArray = [];
@@ -70,7 +79,16 @@ export class LeftPanelComponent {
 
     // Service used to update the right panel when selecting a pokémon on the left panel list
     sendPkmnToShow(pkmnName): void {
-      this.panelService.sendCustomEvent(pkmnName);
+      this.panelService.sendPkmnToDisplayEvent(pkmnName);
+    }
+
+    // Update list of fav pkmns after an action was done on the right panel
+    updateFavPkmns(pkmnName) {
+      if (this.favPkmnsArray.includes(pkmnName)) {
+          this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
+      } else {
+        this.favPkmnsArray.push(pkmnName);
+      }
     }
 
     ngOnInit() {
@@ -81,7 +99,9 @@ export class LeftPanelComponent {
 
     getSettingsData() {
       let cookie = this.cookieService.get(this.settingsCookieName);
-      this.settingsDict = JSON.parse(cookie);
+      if (cookie) {
+        this.settingsDict = JSON.parse(cookie);
+      }
     }
 
     getFavPkmnData() {
@@ -96,6 +116,7 @@ export class LeftPanelComponent {
     setNewFavPkmn(pkmnName) {
       this.favPkmnsArray.push(pkmnName);
       this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
+      this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
     }
 
     removeFavPkmn(pkmnName) {
@@ -110,6 +131,7 @@ export class LeftPanelComponent {
       }
       this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
       this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
+      this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
     }
 
     allListPage() {

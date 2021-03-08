@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin, Observable, Subscription, throwError } from 'rxjs';
-import { HomeComponent } from '../home.component';
+import { throwError } from 'rxjs';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { faPhoneVolume, faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { CookieService } from 'ng2-cookies';
 
 @Component({
   selector: 'right-panel-component',
@@ -18,6 +21,10 @@ export class RightPanelComponent implements OnInit {
     @Input() nbPkmnGens: number = 0;
 
     pkmnName: string = 'haunter';
+    isFavPkmn: boolean;
+
+    // Fav Pkmn cookie
+    favPkmnCookieName: string = 'fav_cookie'
 
     pkmnData: any;
     abilitiesData: Array<any> = [];
@@ -27,16 +34,33 @@ export class RightPanelComponent implements OnInit {
       private httpService: HttpService,
       private panelService: PanelService,
       private toastr: ToastrService,
+      public faLibrary: FaIconLibrary,
+      private cookieService: CookieService,
     ) {
 
-      this.panelService.$getEventSubject.subscribe(newPkmnName => {
+      // FontAwesome icons
+      faLibrary.addIcons(fasStar);
+      faLibrary.addIcons(farStar);
+
+      // To receive from PanelService about the pokémon to show on the right panel
+      this.panelService.$getPkmnToDisplayEventSubject.subscribe(newPkmnName => {
           this.pkmnName = newPkmnName;
+          this.ngOnInit();
+      });
+      // To receive from PanelService to update favourite pokémon FROM LEFT
+      this.panelService.$getUpdateFavPkmnFromLeftEventSubject.subscribe(() => {
+          this.updateFavPkmns();
           this.ngOnInit();
       });
     }
 
+    updateFavPkmns() {
+      this.isFavPkmn = this.cookieService.get(this.favPkmnCookieName).split(',').includes(this.pkmnName);
+    }
+
     ngOnInit() {
       this.getPkmnData();
+      this.getIfFavPkmn();
     }
 
     getPkmnData() {
@@ -51,6 +75,11 @@ export class RightPanelComponent implements OnInit {
       }, () => {
         this.dataReceived = true;
       })
+    }
+
+    getIfFavPkmn() {
+      let cookie = this.cookieService.get(this.favPkmnCookieName);
+      this.isFavPkmn = cookie.split(',').includes(this.pkmnName);
     }
 
     getAbilitiesData() {
@@ -83,6 +112,28 @@ export class RightPanelComponent implements OnInit {
             });
         }
       }
+    }
+
+    setNewFavPkmn(pkmnName) {
+      let favPkmnsArray = [];
+      let cookie = this.cookieService.get(this.favPkmnCookieName)
+      if (!cookie || cookie.length <= 0) {
+        favPkmnsArray = [pkmnName];      
+      } else {
+        favPkmnsArray = cookie.split(',');
+        favPkmnsArray.push(pkmnName);
+      }
+      this.cookieService.set(this.favPkmnCookieName, favPkmnsArray.toString());
+      this.panelService.sendUpdateFavPkmnToLeftEvent(pkmnName);
+      this.isFavPkmn = true;
+    }
+
+    removeFavPkmn(pkmnName) {
+      let favPkmnsArray = this.cookieService.get(this.favPkmnCookieName).split(',');
+      favPkmnsArray.splice(favPkmnsArray.indexOf(pkmnName), 1);
+      this.cookieService.set(this.favPkmnCookieName, favPkmnsArray.toString())
+      this.panelService.sendUpdateFavPkmnToLeftEvent(pkmnName);
+      this.isFavPkmn = false;
     }
 
     displayEnglishAbilityEffect(ability: any): string {

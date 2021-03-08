@@ -21,9 +21,9 @@ import { PanelService } from "../../services/panelService";
     // Next and previous pkmns to display on top bar
     pkmnAround: any = {prev: [], next: []};
 
-    // Service used to update the right panel when selecting a pokémon on the left panel list
-    sendPkmnToShow(pkmnName): void {
-      this.panelService.sendCustomEvent(pkmnName);
+    // Service used to update the right panel when selecting a pokémon on the top bar
+    sendPkmnToDisplay(pkmnName): void {
+      this.panelService.sendPkmnToDisplayEvent(pkmnName);
     }
 
     ngOnInit() {

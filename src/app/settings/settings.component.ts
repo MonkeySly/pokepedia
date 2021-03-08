@@ -48,6 +48,7 @@ export class SettingsComponent implements OnInit {
     ngOnInit() {
       this.updateCookies();
       this.tmpTheme = this.settingsDict.isDarkTheme;
+      console.log(this.settingsDict.nbPkmnByPage);
     }
 
     switchTheme() {
@@ -80,7 +81,9 @@ export class SettingsComponent implements OnInit {
 
     updateCookies() {
       this.settingsCookie = this.cookieService.get(this.settingsCookieName);
-      this.settingsDict = JSON.parse(this.settingsCookie);
+      if (this.settingsCookie) {
+        this.settingsDict = JSON.parse(this.settingsCookie);
+      }
     }
 
 }

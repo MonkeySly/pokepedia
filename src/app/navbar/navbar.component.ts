@@ -40,12 +40,14 @@ export class NavbarComponent implements OnInit {
 
     getSettingsData() {
       let cookie = this.cookieService.get(this.settingsCookieName);
-      this.isDarkTheme = JSON.parse(cookie).isDarkTheme;
+      if (cookie) {
+        this.isDarkTheme = JSON.parse(cookie).isDarkTheme;
+      }
     }
 
     // Service used to update the right panel when selecting a pokémon on the left panel list
     searchPkmn(): void {
-      let a = this.panelService.sendCustomEvent(this.pkmnToSearch.toLowerCase());
+      let a = this.panelService.sendPkmnToDisplayEvent(this.pkmnToSearch.toLowerCase());
       this.pkmnToSearch = "";
     }
 }
