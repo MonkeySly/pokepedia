@@ -18,12 +18,12 @@
         <nav>
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" aria-label="AllList" (click)="allListPage()">
+                    <a class="page-link" [ngClass]="{'active-page-link' : !isFavListPage}" aria-label="AllList" (click)="allListPage()">
                         All
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" aria-label="Favourites" (click)="favListPage()">
+                    <a class="page-link" [ngClass]="{'active-page-link' : isFavListPage}" aria-label="Favourites" (click)="favListPage()">
                         Favourites
                     </a>
                 </li>
