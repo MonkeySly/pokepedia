@@ -72,6 +72,10 @@ export class SettingsComponent implements OnInit {
 
     removeCookies() {
       this.cookieService.deleteAll();
+      this.refreshPage();
+    }
+
+    refreshPage() {
       location.reload();
     }
 
