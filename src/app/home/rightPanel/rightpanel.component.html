@@ -9,8 +9,10 @@
                     <img class="w-100" [src]="pkmnData.sprites.front_default">
                 </div>
             </div>
+
             <!-- Data -->
             <div class="col-8 d-flex flex-column">
+
                 <!-- Name -->
                 <div class="d-flex flex-row mb-1">
                     <span class="fw-bold fs-2">#{{pkmnData.id | number:'3.0'}} - {{capitalize(pkmnData.name)}}</span>
@@ -25,8 +27,9 @@
                         <fa-icon [icon]="['fas', 'star']"></fa-icon>
                     </button>
                 </div>
+
                 <!-- Types -->
-                <div class="row mb-1 attribute-block reverse-theme">
+                <div class="row mx-0 mb-2 attribute-block reverse-theme">
                     <span class="col-2 attribute-title reverse-theme py-1">
                         Type(s):
                     </span>
@@ -36,8 +39,9 @@
                         </span>
                     </div>
                 </div>
+
                 <!-- Height -->
-                <div class="row mb-2 attribute-block reverse-theme">
+                <div class="row mx-0 mb-2 attribute-block reverse-theme">
                     <div class="col-2 attribute-title reverse-theme py-1">
                         <span class="reverse-theme">Height:</span>
                     </div>
@@ -45,8 +49,9 @@
                         <span>{{convertHeight(pkmnData.height)}}m</span>
                     </div>
                 </div>
+
                 <!-- Weight -->
-                <div class="row mb-2 attribute-block reverse-theme">
+                <div class="row mx-0 mb-2 attribute-block reverse-theme">
                     <div class="col-2 attribute-title reverse-theme py-1">
                         <span class="reverse-theme">Weight:</span>
                     </div>
@@ -54,12 +59,12 @@
                         <span>{{convertWeight(pkmnData.weight)}}kg</span>
                     </div>
                 </div>
+
                 <!-- Stats -->
-                <div class="my-2">
+                <div class="mb-2">
                     <table class="table table-borderless stats-table">
                         <thead>
                             <tr>
-                                <td></td>
                                 <td class="text-center fw-bold hp">HP</td>
                                 <td class="text-center fw-bold atk">Atk</td>
                                 <td class="text-center fw-bold def">Def</td>
@@ -69,7 +74,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <th class="text-center">Base stats</th>
                             <td class="text-center hp fw-bold">{{pkmnData.stats[0].base_stat}}</td>
                             <td class="text-center atk fw-bold">{{pkmnData.stats[1].base_stat}}</td>
                             <td class="text-center def fw-bold">{{pkmnData.stats[2].base_stat}}</td>
@@ -137,10 +141,10 @@
         </div>
     </ng-container>
     <ng-container *ngIf="!pkmnName || pkmnName === ''">
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column pb-5 welcome-block">
             <div class="d-flex flex-row justify-content-center my-5">
                 <div>
-                    <span class="fw-bold fs-1">Welcome to Poképedia!</span>
+                    <h1 class="fw-bold fs-1">Welcome to Poképedia!</h1>
                 </div>
             </div>
             <div class="text-center mb-2">

@@ -60,4 +60,40 @@
         background-color: $cyan;
         color: $white;
     }
+
+
+    // Scrollbar
+    .scrollar {
+        scrollbar-color: $white $dark;
+        scrollbar-width: thin;
+    }
+
+    // Blocks designs
+
+    .top-bar-block {
+        background-color: $dark;
+        border-radius: 30px;
+        div {
+            background-color: $dark;
+        }
+        span {
+            color: $white;
+        }
+    }
+
+    .welcome-block {
+        background-color: $dark;
+        border-radius: 30px;
+        div {
+            background-color: $dark;
+            span, h1 { 
+                color: $white;
+            }
+        }
+    }
+
+    .move-table thead tr th {
+        background-color: $dark;
+        color: $white;
+    }
 }

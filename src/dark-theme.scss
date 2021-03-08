@@ -67,4 +67,40 @@
         background-color: $white;
         color: $dark;
     }
+
+
+    // Scrollbar
+    .scrollar {
+        scrollbar-color: $dark $white;
+        scrollbar-width: thin;
+    }
+
+    // Blocks designs
+
+    .top-bar-block {
+        background-color: $white;
+        border-radius: 30px;
+        div {
+            background-color: $white;
+        }
+        span {
+            color: $dark;
+        }
+    }
+
+    .welcome-block {
+        background-color: $white;
+        border-radius: 30px;
+        div {
+            background-color: $white;
+            span, h1 { 
+                color: $dark;
+            }
+        }
+    }
+
+    .move-table thead tr th {
+        background-color: $white;
+        color: $dark;
+    }
 }

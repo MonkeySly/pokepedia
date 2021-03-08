@@ -37,13 +37,7 @@
         </div>
     </ng-container>
     <ng-container *ngIf="!loading">
-        <table class="table" *ngIf="pkmnArray.length > 0">
-            <thead>
-                <tr>
-                <th scope="col text-center">Name</th>
-                <th scope="col text-center">Favourite</th>
-                </tr>
-            </thead>
+        <table class="table table-borderless" *ngIf="pkmnArray.length > 0">
             <tbody>
                 <tr *ngFor="let pkmn of pkmnArray">
                     <td>
