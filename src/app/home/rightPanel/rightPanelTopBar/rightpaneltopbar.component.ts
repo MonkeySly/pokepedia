@@ -27,14 +27,16 @@ import { PanelService } from "../../services/panelService";
     }
 
     ngOnInit() {
-      this.getAroundPkmn(this.pkmnData.id);
+      if (this.pkmnData) {
+        this.getAroundPkmn(this.pkmnData.id);
+      }
     }
 
     ngOnChanges() {
-      this.getAroundPkmn(this.pkmnData.id);
+      this.ngOnInit();
     }
 
-    getAroundPkmn(pkmnId) {
+    getAroundPkmn(pkmnId: number) {
         this.pkmnAround = {};
         if (pkmnId > 1) {
           this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + (pkmnId-1)).subscribe(result => {

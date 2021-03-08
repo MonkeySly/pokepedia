@@ -1,6 +1,6 @@
 <div class="container pt-3 mt-5" *ngIf="dataReceived">
     <right-panel-top-bar *ngIf="pkmnName && pkmnName != ''" [nbPkmn]="nbPkmn" [pkmnData]="pkmnData"></right-panel-top-bar>
-    <ng-container *ngIf="pkmnName != ''">
+    <ng-container *ngIf="pkmnName != '' && pkmnData">
         <!-- Basic data -->
         <div class="row">
             <!-- Picture -->
