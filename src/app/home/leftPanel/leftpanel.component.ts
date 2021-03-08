@@ -63,6 +63,7 @@ export class LeftPanelComponent implements OnInit {
       pokemon: 'https://pokeapi.co/api/v2/pokemon',
       generation: 'https://pokeapi.co/api/v2/generation',
       arrayPage: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=',
+      goToArrayPage: 'https://pokeapi.co/api/v2/pokemon/',
       prevArrayPage: null,
       nextArrayPage: null,
     }
@@ -96,8 +97,7 @@ export class LeftPanelComponent implements OnInit {
     getSettingsData() {
       let cookie = this.cookieService.get(this.settingsCookieName);
       if (cookie) {
-        let json = JSON.parse(cookie);
-        Object.assign(this.settingsDict, json);
+        Object.assign(this.settingsDict, JSON.parse(cookie));
       }
     }
 
@@ -116,7 +116,7 @@ export class LeftPanelComponent implements OnInit {
       this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
     }
 
-    removeFavPkmn(pkmnName) {
+    removeFavPkmn(pkmnName: string): boolean {
       if (this.isFavListPage) {
         let index = 0;
         this.pkmnArray.forEach(elem => {
@@ -126,9 +126,15 @@ export class LeftPanelComponent implements OnInit {
           index += 1;
         })
       }
-      this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
-      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from ARRAY to STRING
-      this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
+
+      if (this.favPkmnsArray.indexOf(pkmnName) != -1) {
+        this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
+        this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from ARRAY to STRING
+        this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
+        return true;
+      } else {
+        return false;
+      }
     }
 
     allListPage() {
@@ -141,17 +147,34 @@ export class LeftPanelComponent implements OnInit {
       this.isFavListPage = true;
     }
 
-    prevPage() {
+    prevPage(): boolean {
       if (this.page > 1) {
         this.page -= 1;
         this.requestPkmnArray(this.urls.prevArrayPage);
+        return true;
       }
+      return false;
     }
 
-    nextPage() {
-      if (this.urls.nextArrayPage && this.urls.nextArrayPage != '') {
+    nextPage(): boolean {
+      if (this.urls.nextArrayPage && this.urls.nextArrayPage.startsWith('https://pokemon.co/api/v2/pokemon')) {
         this.page += 1;
         this.requestPkmnArray(this.urls.nextArrayPage);
+        return true;
+      }
+      return false;
+    }
+
+    // Not yet implemented
+    goToPage(page: number): boolean {
+      let limit = this.settingsDict.nbPkmnByPage;
+      let offset = page * this.settingsDict.nbPkmnByPage;
+      if (offset < this.nbPkmn) {
+        let url = this.urls.goToArrayPage + '?offset=' + offset.toString() + '&limit=' + limit.toString();
+        this.requestPkmnArray(url);
+        return true;
+      } else {
+        return false;
       }
     }
 
