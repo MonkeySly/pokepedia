@@ -108,7 +108,7 @@ describe('LeftPanelComponent', () => {
 
     app.page = 1;
     // The next page button is active if the get gives us a "next page" url
-    app.urls.nextArrayPage = 'https://pokemon.co/api/v2/pokemon?limit=20&offset=20'
+    app.urls.nextArrayPage = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=20'
 
     // Going previous page but it already at page 1
     expect(app.prevPage()).toEqual(false);

@@ -157,7 +157,7 @@ export class LeftPanelComponent implements OnInit {
     }
 
     nextPage(): boolean {
-      if (this.urls.nextArrayPage && this.urls.nextArrayPage.startsWith('https://pokemon.co/api/v2/pokemon')) {
+      if (this.urls.nextArrayPage && this.urls.nextArrayPage.startsWith('https://pokeapi.co/api/v2/pokemon')) {
         this.page += 1;
         this.requestPkmnArray(this.urls.nextArrayPage);
         return true;
