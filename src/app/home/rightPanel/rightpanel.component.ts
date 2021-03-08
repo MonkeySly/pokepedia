@@ -60,18 +60,18 @@ export class RightPanelComponent implements OnInit {
 
     ngOnInit() {
       if (this.pkmnName && this.pkmnName != '') {
-        this.getPkmnData();
+        this.requestPkmnData();
         this.getIfFavPkmn();
       } else {
         this.dataReceived = true;
       }
     }
 
-    getPkmnData() {
+    requestPkmnData() {
       this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + this.pkmnName).subscribe(result => {
         this.pkmnData = this.httpService.requestResultHandler(result);
-        this.getAbilitiesData()
-        this.getMovesData();
+        this.requestAbilitiesData()
+        this.requestMovesData();
       }, error => {
         console.log('error: ', error);
         this.toastr.error('Could not find any Pokémon with such name. Please try again.')
@@ -81,12 +81,18 @@ export class RightPanelComponent implements OnInit {
       })
     }
 
-    getIfFavPkmn() {
+    getIfFavPkmn(): boolean {
       let cookie = this.cookieService.get(this.favPkmnCookieName);
-      this.isFavPkmn = cookie.split(',').includes(this.pkmnName);
+      if (cookie) {
+        this.isFavPkmn = cookie.split(',').includes(this.pkmnName);
+        return true;
+      } else {
+        this.isFavPkmn = false;
+        return false;
+      }
     }
 
-    getAbilitiesData() {
+    requestAbilitiesData() {
       this.abilitiesData = []; // Reset
       for (let ability of this.pkmnData.abilities) {
           this.httpService.get('https://pokeapi.co/api/v2/ability/' + ability.ability.name).subscribe(result => {
@@ -99,7 +105,7 @@ export class RightPanelComponent implements OnInit {
       }
     }
 
-    getMovesData() {
+    requestMovesData() {
       this.movesData = []; // Reset
       for (let move of this.pkmnData.moves) {
         if (move.version_group_details[0].move_learn_method.name === 'level-up') {
@@ -118,26 +124,34 @@ export class RightPanelComponent implements OnInit {
       }
     }
 
-    setNewFavPkmn(pkmnName) {
+    addNewFavPkmn(pkmnName: string) {
       let favPkmnsArray = [];
       let cookie = this.cookieService.get(this.favPkmnCookieName)
       if (!cookie || cookie.length <= 0) {
         favPkmnsArray = [pkmnName];      
       } else {
         favPkmnsArray = cookie.split(',');
-        favPkmnsArray.push(pkmnName);
+        if (!favPkmnsArray.includes(pkmnName)) {
+          favPkmnsArray.push(pkmnName);
+        }
       }
       this.cookieService.set(this.favPkmnCookieName, favPkmnsArray.toString());
       this.panelService.sendUpdateFavPkmnToLeftEvent(pkmnName);
       this.isFavPkmn = true;
     }
 
-    removeFavPkmn(pkmnName) {
+    removeFavPkmn(pkmnName: string): boolean {
       let favPkmnsArray = this.cookieService.get(this.favPkmnCookieName).split(',');
-      favPkmnsArray.splice(favPkmnsArray.indexOf(pkmnName), 1);
-      this.cookieService.set(this.favPkmnCookieName, favPkmnsArray.toString())
-      this.panelService.sendUpdateFavPkmnToLeftEvent(pkmnName);
-      this.isFavPkmn = false;
+      if (favPkmnsArray.indexOf(pkmnName) != -1) {
+        favPkmnsArray.splice(favPkmnsArray.indexOf(pkmnName), 1);
+        this.cookieService.set(this.favPkmnCookieName, favPkmnsArray.toString())
+        this.panelService.sendUpdateFavPkmnToLeftEvent(pkmnName);
+        this.isFavPkmn = false;
+        return true;
+      } else {
+        return false;
+      }
+      
     }
 
     displayEnglishAbilityEffect(ability: any): string {

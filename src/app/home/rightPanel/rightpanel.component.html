@@ -16,7 +16,7 @@
                     <span class="fw-bold fs-2">#{{pkmnData.id | number:'3.0'}} - {{capitalize(pkmnData.name)}}</span>
                     <button *ngIf="!isFavPkmn"
                             class="btn btn-outline-warning ms-3 my-2"
-                            (click)="setNewFavPkmn(pkmnData.name)">
+                            (click)="addNewFavPkmn(pkmnData.name)">
                         <fa-icon [icon]="['far', 'star']"></fa-icon>
                     </button>
                     <button *ngIf="isFavPkmn"
