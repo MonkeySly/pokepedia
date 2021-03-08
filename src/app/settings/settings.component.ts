@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
 import { SettingsService } from '../home/services/settingsService';
+import { Settings } from './settings';
 
 @Component({
   selector: 'settings-component',
@@ -18,10 +19,7 @@ export class SettingsComponent implements OnInit {
     ) {}
 
     // Settings
-    settingsDict = {
-      nbPkmnByPage: 20,
-      isDarkTheme: false,
-    }
+    settingsDict: Settings = new Settings(20, false); // Default values init
 
     tmpTheme: boolean;
 
@@ -48,7 +46,6 @@ export class SettingsComponent implements OnInit {
     ngOnInit() {
       this.updateCookies();
       this.tmpTheme = this.settingsDict.isDarkTheme;
-      console.log(this.settingsDict.nbPkmnByPage);
     }
 
     switchTheme() {
@@ -62,8 +59,7 @@ export class SettingsComponent implements OnInit {
     }
 
     resetSettings() {
-      this.settingsDict.nbPkmnByPage = 20; // Default value
-      this.settingsDict.isDarkTheme = false;
+      this.settingsDict = new Settings(20, false);
       this.addCookie();
       this.updateCookies();
     }
@@ -81,8 +77,8 @@ export class SettingsComponent implements OnInit {
 
     updateCookies() {
       this.settingsCookie = this.cookieService.get(this.settingsCookieName);
-      if (this.settingsCookie) {
-        this.settingsDict = JSON.parse(this.settingsCookie);
+      if (this.settingsCookie && typeof this.settingsCookie === 'string') {
+        Object.assign(this.settingsDict, JSON.parse(this.settingsCookie));
       }
     }
 

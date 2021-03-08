@@ -1,20 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
 import { SettingsService } from '../services/settingsService';
+import { Settings } from '../../settings/settings';
 
 @Component({
   selector: 'left-panel-component',
   templateUrl: './leftpanel.component.html',
   styleUrls: ['./leftpanel.component.scss']
 })
+
 export class LeftPanelComponent implements OnInit {
 
   constructor(
@@ -51,10 +50,7 @@ export class LeftPanelComponent implements OnInit {
     favPkmnCookieName: string = 'fav_cookie'
 
     // Settings Dict refresh with services from the settings page
-    settingsDict: any = {
-      nbPkmnByPage: 20,
-      isDarkTheme: false,
-    }
+    settingsDict: Settings = new Settings(20, false);
 
     // Fav Pokémons Dict
     favPkmnsArray = [];
@@ -93,14 +89,15 @@ export class LeftPanelComponent implements OnInit {
 
     ngOnInit() {
       this.getSettingsData();
-      this.getPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
+      this.requestPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
       this.getFavPkmnData();
     }
 
     getSettingsData() {
       let cookie = this.cookieService.get(this.settingsCookieName);
       if (cookie) {
-        this.settingsDict = JSON.parse(cookie);
+        let json = JSON.parse(cookie);
+        Object.assign(this.settingsDict, json);
       }
     }
 
@@ -115,7 +112,7 @@ export class LeftPanelComponent implements OnInit {
 
     setNewFavPkmn(pkmnName) {
       this.favPkmnsArray.push(pkmnName);
-      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
+      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from ARRAY to STRING
       this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
     }
 
@@ -130,31 +127,31 @@ export class LeftPanelComponent implements OnInit {
         })
       }
       this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
-      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from array to string
+      this.cookieService.set(this.favPkmnCookieName, this.favPkmnsArray.toString()) // Convert from ARRAY to STRING
       this.panelService.sendUpdateFavPkmnToRightEvent(pkmnName);
     }
 
     allListPage() {
-      this.getPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
+      this.requestPkmnArray(this.urls.arrayPage + this.settingsDict.nbPkmnByPage);
       this.isFavListPage = false;
     }
 
     favListPage() {
-      this.getFavPkmnArray();
+      this.requestFavPkmnArray();
       this.isFavListPage = true;
     }
 
     prevPage() {
       this.page -= 1;
-      this.getPkmnArray(this.urls.prevArrayPage);
+      this.requestPkmnArray(this.urls.prevArrayPage);
     }
 
     nextPage() {
       this.page += 1;
-      this.getPkmnArray(this.urls.nextArrayPage);
+      this.requestPkmnArray(this.urls.nextArrayPage);
     }
 
-    getPkmnArray(url: string) {
+    requestPkmnArray(url: string) {
       this.pkmnArray = [];
       this.httpService.get(url).subscribe(result => {
           let data = this.httpService.requestResultHandler(result);
@@ -169,7 +166,7 @@ export class LeftPanelComponent implements OnInit {
       );
     }
 
-    getFavPkmnArray() {
+    requestFavPkmnArray() {
       this.pkmnArray = [];
       for (let pkmnName of this.favPkmnsArray) {
         this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + pkmnName).subscribe(result => {
