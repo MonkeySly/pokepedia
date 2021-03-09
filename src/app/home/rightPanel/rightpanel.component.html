@@ -1,6 +1,11 @@
 <div class="container pt-3 mt-5" *ngIf="dataReceived">
-    <right-panel-top-bar *ngIf="pkmnName && pkmnName != ''" [nbPkmn]="nbPkmn" [pkmnData]="pkmnData"></right-panel-top-bar>
-    <ng-container *ngIf="pkmnName != '' && pkmnData">
+    <ng-container *ngIf="pkmnName != '' && pkmnData && loading">
+        <div class="d-flex flex-row justify-content-center">
+            <fa-icon [icon]="['fas', 'circle-notch']" size="6x" [spin]="true"></fa-icon>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="pkmnName != '' && pkmnData && !loading">
+        <right-panel-top-bar *ngIf="pkmnName && pkmnName != ''" [nbPkmn]="nbPkmn" [pkmnData]="pkmnData"></right-panel-top-bar>
         <!-- Basic data -->
         <div class="row">
             <!-- Picture -->
