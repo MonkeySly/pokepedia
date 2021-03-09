@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Observable, of, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 import { HttpService } from "../../services/httpService";
 import { PanelService } from "../../services/panelService";
 
@@ -45,13 +47,13 @@ import { PanelService } from "../../services/panelService";
             console.log('error', error)
           });
         }
-        if (pkmnId < this.nbPkmn) {
-          this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + (pkmnId+1)).subscribe(result => {
-            this.pkmnAround.next = this.httpService.requestResultHandler(result);
-          }, error => {
-            console.log('error', error)
-          });
-        } 
+        this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + (pkmnId+1))
+          .pipe(catchError((e: any) => {
+            return of(false); // Well anyway, it doesn't prevent the 404 error in the console so...
+          }))
+          .subscribe(result => {
+          this.pkmnAround.next = this.httpService.requestResultHandler(result);
+        });
       }
 
     capitalize(str: string) {
