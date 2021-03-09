@@ -101,6 +101,25 @@ describe('LeftPanelComponent', () => {
     expect(app.removeFavPkmn('haunter')).toEqual(true);
   });
 
+  it('delete fav pkmn list', () => {
+    const app = initComponent();
+    const cookieService: CookieService = new CookieService();
+    cookieService.delete('fav_cookie');
+
+    // Empty array
+    app.favPkmnsArray = [];
+    app.deleteFavPkmnList();
+    expect(app.favPkmnsArray).toEqual([]);
+    expect(cookieService.check('fav_cookie')).toEqual(false);
+
+    // Not empty array
+    app.favPkmnsArray = ['gastly', 'haunter', 'gengar'];
+    cookieService.set('fav_cookie', app.favPkmnsArray.toString());
+    app.deleteFavPkmnList();
+    expect(app.favPkmnsArray).toEqual([]);
+    expect(cookieService.check('fav_cookie')).toEqual(false);
+  });
+
   it('moving between list pages', () => {
     const app = initComponent();
 
