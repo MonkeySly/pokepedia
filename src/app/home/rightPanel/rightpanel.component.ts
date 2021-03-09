@@ -5,7 +5,7 @@ import { throwError } from 'rxjs';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faPhoneVolume, faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faPhoneVolume, faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
 
 @Component({
@@ -19,6 +19,8 @@ export class RightPanelComponent implements OnInit {
 
     @Input() nbPkmn: number = 0;
     @Input() nbPkmnGens: number = 0;
+
+    loading: boolean = true;
 
     pkmnName: string = '';
     isFavPkmn: boolean;
@@ -41,6 +43,7 @@ export class RightPanelComponent implements OnInit {
       // FontAwesome icons
       faLibrary.addIcons(fasStar);
       faLibrary.addIcons(farStar);
+      faLibrary.addIcons(faCircleNotch);
 
       // To receive from PanelService about the pokémon to show on the right panel
       this.panelService.$getPkmnToDisplayEventSubject.subscribe(newPkmnName => {
@@ -60,6 +63,7 @@ export class RightPanelComponent implements OnInit {
 
     ngOnInit() {
       if (this.pkmnName && this.pkmnName != '') {
+        this.loading = true;
         this.requestPkmnData();
         this.getIfFavPkmn();
       } else {
@@ -77,6 +81,7 @@ export class RightPanelComponent implements OnInit {
         this.toastr.error('Could not find any Pokémon with such name. Please try again.')
         return throwError(error);
       }, () => {
+        this.loading = false;
         this.dataReceived = true;
       })
     }
