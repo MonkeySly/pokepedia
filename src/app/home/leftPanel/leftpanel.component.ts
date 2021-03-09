@@ -1,12 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faStar as fasStar, faChevronLeft, faChevronRight, faCircleNotch, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
+import { faStar as fasStar, faChevronLeft, faChevronRight, faCircleNotch, faStepBackward, faStepForward, faTrashAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
 import { SettingsService } from '../services/settingsService';
 import { Settings } from '../../settings/settings';
+import { throwError } from 'rxjs';
+import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'left-panel-component',
@@ -21,7 +25,9 @@ export class LeftPanelComponent implements OnInit {
     private panelService: PanelService,
     private settingsService: SettingsService,
     private cookieService: CookieService,
-    faLibrary: FaIconLibrary) {
+    public faLibrary: FaIconLibrary,
+    private modalService: NgbModal,
+    private toastrService: ToastrService) {
 
       this.settingsService.$getEventSubject.subscribe(newSettingsDict => {
         this.settingsDict = newSettingsDict;
@@ -41,6 +47,8 @@ export class LeftPanelComponent implements OnInit {
       faLibrary.addIcons(faChevronRight);
       faLibrary.addIcons(faStepForward);
       faLibrary.addIcons(faCircleNotch);
+      faLibrary.addIcons(faTrashAlt);
+      faLibrary.addIcons(faTimes);
     }
 
     // Inputs
@@ -80,13 +88,16 @@ export class LeftPanelComponent implements OnInit {
     // When requesting next list page
     loading: boolean = true;
 
+    // Modal close result
+    modalCloseResult: string = '';
+
     // Service used to update the right panel when selecting a pokémon on the left panel list
     sendPkmnToShow(pkmnName): void {
       this.panelService.sendPkmnToDisplayEvent(pkmnName);
     }
 
     // Update list of fav pkmns after an action was done on the right panel
-    updateFavPkmns(pkmnName) {
+    updateFavPkmns(pkmnName: string) {
       if (this.favPkmnsArray.includes(pkmnName)) {
           this.favPkmnsArray.splice(this.favPkmnsArray.indexOf(pkmnName), 1);
       } else {
@@ -154,6 +165,40 @@ export class LeftPanelComponent implements OnInit {
       this.isFavListPage = true;
     }
 
+    openDeleteFavPkmnListModal(content) {
+      const modalConfig: NgbModalOptions = {
+        ariaLabelledBy: 'delete-fav-pkmn-list-modal-title',
+        size: "lg",
+        centered: true,
+        backdrop: 'static',
+      }
+      this.modalService.open(content, modalConfig).result.then((result) => {
+        if (result && result === 'delete') {
+          this.deleteFavPkmnList();
+        }
+        this.modalCloseResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.modalCloseResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+
+    private getDismissReason(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return `with: ${reason}`;
+      }
+    }
+
+    deleteFavPkmnList() {
+      this.favPkmnsArray = []; // Reset
+      this.cookieService.delete(this.favPkmnCookieName);
+      this.toastrService.success('Your favourite Pokémons list has been succesfully deleted.', 'Favourite List Deletion')
+      this.requestFavPkmnArray();
+    }
+
     firstPage(): boolean {
       if (this.page > 1) {
         this.loading = true;
@@ -219,7 +264,7 @@ export class LeftPanelComponent implements OnInit {
             this.pkmnArray.push({name: pkmn.name});
           }
         }, error => {
-          console.log('error:', error);
+          throwError(error);
         }, () => {
           this.loading = false;
         }
@@ -233,7 +278,7 @@ export class LeftPanelComponent implements OnInit {
             let pkmn = this.httpService.requestResultHandler(result);
             this.pkmnArray.push({name: pkmn.name});
           }, error => {
-            console.log('error:', error);
+            throwError(error);
           }
         );
       }

@@ -49,7 +49,6 @@ export class HomeComponent implements OnInit {
     this.httpService.get('https://pokeapi.co/api/v2/pokemon/').subscribe(result => {
         this.nbPkmn = this.httpService.requestResultHandler(result).count;
       }, error => {
-        console.log('error:', error);
         return throwError(error);
       }
     );
@@ -59,7 +58,6 @@ export class HomeComponent implements OnInit {
     this.httpService.get('https://pokeapi.co/api/v2/generation/').subscribe(result => {
         this.nbPkmnGens = this.httpService.requestResultHandler(result).count;
       }, error => {
-        console.log('error:', error);
         return throwError(error);
       }
     );

@@ -60,20 +60,20 @@ describe('SettingsComponent', () => {
   it('add new cookie', () => {
     const app = initComponent();
     const cookieService: CookieService = new CookieService();
-    cookieService.deleteAll();
+    cookieService.delete('settings_cookie');
     expect(cookieService.get('settings_cookie')).toEqual('');
     app.addCookie();
     const settingsToMatch: string = JSON.stringify(new Settings(20, false));
     const receivedSettings: string = cookieService.get('settings_cookie');
     
     expect(receivedSettings).toEqual(settingsToMatch);
-    cookieService.deleteAll();
+    cookieService.delete('settings_cookie');
   });
 
   it('update existing cookie', () => {
       const app = initComponent();
       const cookieService: CookieService = new CookieService();
-      cookieService.deleteAll();
+      cookieService.delete('settings_cookie');
 
       const baseSettings: Settings = new Settings(20, false);
       const newSettings: Settings = new Settings(10, true);
@@ -90,24 +90,24 @@ describe('SettingsComponent', () => {
       app.addCookie();
       expect(cookieService.get('settings_cookie')).toEqual(JSON.stringify(newSettings));
 
-      cookieService.deleteAll();
+      cookieService.delete('settings_cookie');
   });
 
-  it('remove cookies', () => {
+  it('remove settings cookie', () => {
     const app = initComponent();
     const cookieService: CookieService = new CookieService();
-    cookieService.deleteAll();
-    cookieService.set('settings_cookie', 'test_cookie');
+    cookieService.delete('settings_cookie');
+    cookieService.set('settings_cookie', 'test_cookie_value');
     expect(cookieService.check('settings_cookie')).toEqual(true);
     spyOn(app, 'refreshPage'); // Prevent tests to refresh the page
-    app.removeCookies();
+    app.removeSettingsCookie();
     expect(cookieService.check('settings_cookie')).toEqual(false);
   });
 
   it('reset settings and adding a fresh cookie', () => {
     const app = initComponent();
     const cookieService: CookieService = new CookieService();
-    cookieService.deleteAll();
+    cookieService.delete('settings_cookie');
 
     app.settingsDict = new Settings(10, true); // Custom settings
     app.addCookie();
@@ -117,7 +117,7 @@ describe('SettingsComponent', () => {
 
     const settingsToMatch: Settings = new Settings(20, false); // Defaul settings
     expect(cookieService.get('settings_cookie')).toEqual(JSON.stringify(settingsToMatch));
-    cookieService.deleteAll();
+    cookieService.delete('settings_cookie');
   });
 
 });

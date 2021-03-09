@@ -38,7 +38,7 @@ describe('RightPanelComponent', () => {
         const cookieService: CookieService = new CookieService();
 
         // Not favourite
-        cookieService.deleteAll();
+        cookieService.delete('fav_cookie');
         app.getIfFavPkmn();
         expect(app.isFavPkmn).toEqual(false);
 
@@ -55,7 +55,7 @@ describe('RightPanelComponent', () => {
         const leftPanel = TestBed.createComponent(LeftPanelComponent).componentInstance;
 
         // No pkmn in fav cookies
-        cookieService.deleteAll();
+        cookieService.delete('fav_cookie');
         app.addNewFavPkmn('haunter');
         expect(cookieService.get('fav_cookie')).toEqual('haunter')
         expect(app.isFavPkmn).toEqual(true);
@@ -68,7 +68,7 @@ describe('RightPanelComponent', () => {
         expect(cookieService.get('fav_cookie')).toEqual('haunter')
         expect(app.isFavPkmn).toEqual(true);
 
-        cookieService.deleteAll();
+        cookieService.delete('fav_cookie');
   });
 
   it('remove one favourite pokémon', () => {
@@ -78,7 +78,7 @@ describe('RightPanelComponent', () => {
         app.isFavPkmn = true;
 
         // Create cookie with a favourite pokémon
-        cookieService.deleteAll();
+        cookieService.delete('fav_cookie');
         cookieService.set('fav_cookie', 'haunter');
         leftPanel.favPkmnsArray = ['haunter']; // Set left panel favourite list
 

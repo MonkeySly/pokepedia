@@ -77,7 +77,7 @@ export class RightPanelComponent implements OnInit {
         this.requestAbilitiesData()
         this.requestMovesData();
       }, error => {
-        console.log('error: ', error);
+        throwError(error);
         this.toastr.error('Could not find any Pokémon with such name. Please try again.')
         return throwError(error);
       }, () => {
@@ -105,7 +105,7 @@ export class RightPanelComponent implements OnInit {
             abilityArray.is_hidden = ability.is_hidden;
             this.abilitiesData.push(abilityArray);
           }, error => {
-            console.log('error: ', error);
+            throwError(error);
           });
       }
     }
@@ -123,7 +123,7 @@ export class RightPanelComponent implements OnInit {
                   return (a.level_learned_at - b.level_learned_at)
               });
             }, error => {
-              console.log('error: ', error)
+              throwError(error);
             });
         }
       }

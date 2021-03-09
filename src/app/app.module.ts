@@ -19,6 +19,7 @@ import { SettingsService } from './home/services/settingsService';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome'
 import { ThemeService } from './home/services/themeService';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     FontAwesomeModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    NgbModule
   ],
   providers: [
     HttpService,

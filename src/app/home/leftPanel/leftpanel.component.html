@@ -60,6 +60,15 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex flex-row justify-content-center" *ngIf="pkmnArray.length > 0 && isFavListPage">
+            <div>
+                <div class="input-group">
+                    <button class="btn btn-outline-danger" (click)="openDeleteFavPkmnListModal(deleteFavPkmnListModalContent)">
+                        Delete Favourite List
+                    </button>
+                </div>
+            </div>
+        </div>
         <div *ngIf="pkmnArray.length === 0 && isFavListPage">
             No favourite Pokémons yet... Add some!
         </div>
@@ -128,3 +137,29 @@
     </div>
 
 </div>
+
+<!-- Delete Fav Pkmn List Condirmation Modal -->
+<ng-template #deleteFavPkmnListModalContent let-modal>
+    <div [ngClass]="settingsDict.isDarkTheme ? 'dark-theme' : 'light-theme'">
+        <div class="modal-header">
+            <h4 class="modal-title" id="delete-fav-pkmn-list-modal-title">
+                Confirm Favourite Pokémon List Deletion
+            </h4>
+            <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <fa-icon [icon]="['fas', 'times']"></fa-icon>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div><span>Are you sure you want to <span class="delete-word">delete</span> your Favourite Pokémon list?</span></div>
+            <div><span>If yes, please confirm, or just quit this window to dismiss changes.</span></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.close('dismiss')">
+                <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>&nbsp;No, go back!
+            </button>
+            <button type="button" class="btn btn-outline-danger" (click)="modal.close('delete')">
+                <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>&nbsp;Yes, delete!
+            </button>
+        </div>
+    </div>
+</ng-template>

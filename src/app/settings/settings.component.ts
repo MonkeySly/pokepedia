@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ng2-cookies';
 import { ToastrService } from 'ngx-toastr';
 import { SettingsService } from '../home/services/settingsService';
@@ -15,7 +14,7 @@ export class SettingsComponent implements OnInit {
     constructor(
       private cookieService: CookieService,
       private settingsService: SettingsService,
-      private toast: ToastrService,
+      private toastrService: ToastrService,
     ) {}
 
     // Settings
@@ -37,7 +36,8 @@ export class SettingsComponent implements OnInit {
 
     // Cookies
     settingsCookie: any;
-    settingsCookieName: string = 'settings_cookie'
+    settingsCookieName: string = 'settings_cookie';
+    favCookieName: string = 'fav_cookie';
 
     // Service used to update the right panel when selecting a pokémon on the left panel list
     sendNewSettingsDict(): void {
@@ -63,7 +63,7 @@ export class SettingsComponent implements OnInit {
         this.settingsDict.isDarkTheme = this.tmpTheme;
         this.settingsDict.nbPkmnByPage = this.tmpNbPkmnByPage;
         this.addCookie();
-        this.toast.success("Settings succesfully saved!", 'Settings');
+        this.toastrService.success("Settings succesfully saved!", 'Settings');
         return true;
       } else {
         return false
@@ -75,7 +75,7 @@ export class SettingsComponent implements OnInit {
       if (this.tmpNbPkmnByPage > 1) {
         return true;
       } else {
-        this.toast.error('Cannot set number of Pokémons by page on left panel to ' + this.tmpNbPkmnByPage + '.\nValue is 0 or negative', 'Error');
+        this.toastrService.error('Cannot set number of Pokémons by page on left panel to ' + this.tmpNbPkmnByPage + '.\nValue is 0 or negative', 'Error');
         return false
       }
     }
@@ -92,8 +92,8 @@ export class SettingsComponent implements OnInit {
       this.sendNewSettingsDict();
     }
 
-    removeCookies() {
-      this.cookieService.deleteAll();
+    removeSettingsCookie() {
+      this.cookieService.delete('settings_cookie');
       this.refreshPage();
     }
 

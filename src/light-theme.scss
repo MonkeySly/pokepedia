@@ -104,4 +104,25 @@
         background-color: $dark;
         color: $white;
     }
+
+    // Modals
+
+    .modal-header, .modal-body, .modal-footer {
+        background-color: $dark;
+        div {
+            background-color: $dark;
+        }
+        span, h4 {
+            color: $white;
+        }
+
+        .close {
+            background-color: $dark;
+            color: $red;
+        }
+    }
+    .modal-body .delete-word {
+        color: $red;
+        font-weight: bold;
+    }
 }

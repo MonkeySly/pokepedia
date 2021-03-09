@@ -44,7 +44,7 @@ import { PanelService } from "../../services/panelService";
           this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + (pkmnId-1)).subscribe(result => {
             this.pkmnAround.prev = this.httpService.requestResultHandler(result);
           }, error => {
-            console.log('error', error)
+            throwError(error);
           });
         }
         this.httpService.get('https://pokeapi.co/api/v2/pokemon/' + (pkmnId+1))

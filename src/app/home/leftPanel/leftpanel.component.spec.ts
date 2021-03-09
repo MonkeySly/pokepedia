@@ -45,7 +45,7 @@ describe('LeftPanelComponent', () => {
 
     const app = initComponent();
     app.getSettingsData();
-    cookieService.deleteAll();
+    cookieService.delete('settings_cookie');
 
     // Data to match
     let toMatch: Settings = new Settings(10, true);
@@ -58,7 +58,7 @@ describe('LeftPanelComponent', () => {
     // Create component and access it
     const app = initComponent();
     const cookieService: CookieService = new CookieService();
-    cookieService.deleteAll();
+    cookieService.delete('settings_cookie');
 
     app.getSettingsData();
 
