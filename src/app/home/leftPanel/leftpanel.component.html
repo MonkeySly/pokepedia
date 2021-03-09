@@ -68,19 +68,59 @@
     <div class="d-flex flex-row justify-content-center" *ngIf="pkmnArray.length > 0 && !isFavListPage && !loading">
         <nav>
             <ul class="pagination">
+                <!-- First Active -->
+                <li class="page-item" *ngIf="page > 1">
+                    <a class="page-link" aria-label="First" (click)="firstPage()">
+                        <fa-icon [icon]="['fas', 'step-backward']"></fa-icon>
+                        <span class="visually-hidden-focusable">First</span>
+                    </a>
+                </li>
+                <!-- First Disabled -->
+                <li class="page-item" *ngIf="page === 1">
+                    <a class="page-link disabled-page-link" aria-label="First">
+                        <fa-icon [icon]="['fas', 'step-backward']"></fa-icon>
+                    </a>
+                </li>
+                <!-- Prev Active -->
                 <li class="page-item" *ngIf="page > 1">
                     <a class="page-link" aria-label="Previous" (click)="prevPage()">
                         <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
                         <span class="visually-hidden-focusable">Previous</span>
                     </a>
                 </li>
+                <!-- Prev disabled -->
+                <li class="page-item" *ngIf="page === 1">
+                    <a class="page-link disabled-page-link" aria-label="Previous">
+                        <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
+                    </a>
+                </li>
                 <li class="page-item">
                     <a class="page-link">{{page}}</a>
                 </li>
+                <!-- Next Active -->
                 <li class="page-item" *ngIf="urls.nextArrayPage && this.urls.nextArrayPage != ''">
                     <a class="page-link" aria-label="Next" (click)="nextPage()">
                         <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
                         <span class="visually-hidden-focusable">Next</span>
+                    </a>
+                </li>
+                <!-- Next Disabled -->
+                <li class="page-item" *ngIf="!urls.nextArrayPage || this.urls.nextArrayPage === ''">
+                    <a class="page-link disabled-page-link" aria-label="Next">
+                        <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+                    </a>
+                </li>
+                <!-- Last Active -->
+                <li class="page-item" *ngIf="urls.nextArrayPage && this.urls.nextArrayPage != ''">
+                    <a class="page-link" aria-label="Last" (click)="lastPage()">
+                        <fa-icon [icon]="['fas', 'step-forward']"></fa-icon>
+                        <span class="visually-hidden-focusable">Last</span>
+                    </a>
+                </li>
+                <!-- Last Disabled -->
+                <li class="page-item" *ngIf="!urls.nextArrayPage || this.urls.nextArrayPage === ''">
+                    <a class="page-link disabled-page-link" aria-label="Last">
+                        <fa-icon [icon]="['fas', 'step-forward']"></fa-icon>
                     </a>
                 </li>
             </ul>

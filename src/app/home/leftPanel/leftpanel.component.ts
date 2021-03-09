@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faStar as fasStar, faChevronLeft, faChevronRight, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faStar as fasStar, faChevronLeft, faChevronRight, faCircleNotch, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import { CookieService } from 'ng2-cookies';
 import { HttpService } from '../services/httpService';
 import { PanelService } from '../services/panelService';
@@ -36,8 +36,10 @@ export class LeftPanelComponent implements OnInit {
       // FontAwesome icons
       faLibrary.addIcons(fasStar);
       faLibrary.addIcons(farStar);
-      faLibrary.addIcons(faChevronRight);
       faLibrary.addIcons(faChevronLeft);
+      faLibrary.addIcons(faStepBackward);
+      faLibrary.addIcons(faChevronRight);
+      faLibrary.addIcons(faStepForward);
       faLibrary.addIcons(faCircleNotch);
     }
 
@@ -152,6 +154,16 @@ export class LeftPanelComponent implements OnInit {
       this.isFavListPage = true;
     }
 
+    firstPage(): boolean {
+      if (this.page > 1) {
+        this.loading = true;
+        this.page = 1;
+        this.requestPkmnArray(this.urls.goToArrayPage + '?offset=0&limit=' + this.settingsDict.nbPkmnByPage);
+        return true;
+      }
+      return false;
+    }
+
     prevPage(): boolean {
       if (this.page > 1) {
         this.loading = true;
@@ -167,6 +179,18 @@ export class LeftPanelComponent implements OnInit {
         this.loading = true;
         this.page += 1;
         this.requestPkmnArray(this.urls.nextArrayPage);
+        return true;
+      }
+      return false;
+    }
+
+    lastPage() {
+      if (this.urls.nextArrayPage && this.urls.nextArrayPage.startsWith('https://pokeapi.co/api/v2/pokemon')) {
+        this.loading = true;
+        let limit = this.settingsDict.nbPkmnByPage;
+        this.page = Math.floor(this.nbPkmn / this.settingsDict.nbPkmnByPage);
+        let url = this.urls.goToArrayPage + '?offset=' + (this.page * limit).toString() + '&limit=' + limit.toString();
+        this.requestPkmnArray(url);
         return true;
       }
       return false;
